@@ -1,18 +1,46 @@
-.grid {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: white;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 700px;
+    gap: 10px;
+}
+
+.course-btn {
+    aspect-ratio: 1/1;
+    border: none;
+    border-radius: 5%;
+    background-color: #626262;
+    color: white;
+    font-weight: 900;
+    font-size: 1rem;
+}
+
+.unit-grid {
     width: 400px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     row-gap: 10px;
 }
 
-.grid .unit-btn {
-    aspect-ratio: 1/1;
-    width: 100px;
-}
 
 .unit-btn {
+    aspect-ratio: 1/1;
+    width: 100px;
+    border: none;
     border-radius: 50%;
     background-color: #0080ff;
     color: white;
     font-weight: 900;
+    font-size: 1rem;
 }
