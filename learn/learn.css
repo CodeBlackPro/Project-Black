@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #000;
+    background-color: #2d2d2d;
     color: white;
 }
 
@@ -20,7 +20,7 @@ body {
     aspect-ratio: 1/1;
     border: none;
     border-radius: 5%;
-    background-color: #626262;
+    background-color: #003893;
     color: white;
     font-weight: 900;
     font-size: 1rem;
@@ -39,8 +39,19 @@ body {
     width: 100px;
     border: none;
     border-radius: 50%;
-    background-color: #0080ff;
+    background-color: #003d7b;
     color: white;
     font-weight: 900;
     font-size: 1rem;
+}
+
+.unit-modal {
+    width: 200px;
+    background-color: #00379d;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.unit-modal button {
+    padding: 5px 15px;
 }
