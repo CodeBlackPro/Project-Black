@@ -1,3 +1,2 @@
-
-#ignore admin folder
-admin/
+#ignore key.js in admin folder
+/learn/admin/key.js
