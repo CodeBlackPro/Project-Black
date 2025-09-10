@@ -12,4 +12,7 @@
 
 .unit-btn {
     border-radius: 50%;
+    background-color: #0080ff;
+    color: white;
+    font-weight: 900;
 }
