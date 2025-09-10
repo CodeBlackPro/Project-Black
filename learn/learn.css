@@ -1,9 +1,15 @@
 .grid {
+    width: 400px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    row-gap: 10px;
 }
 
-.grid button {
+.grid .unit-btn {
     aspect-ratio: 1/1;
-    width: 100%;
+    width: 100px;
+}
+
+.unit-btn {
+    border-radius: 50%;
 }
