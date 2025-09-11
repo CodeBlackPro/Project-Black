@@ -42,3 +42,12 @@
     border-radius: 10px;
     margin-bottom: 10px;
 }
+
+.content-item {
+    width: 200px;
+    background-color: #0000ff;
+    border: 1px solid rgb(0, 0, 0);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
