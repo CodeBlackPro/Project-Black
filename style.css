@@ -16,6 +16,11 @@ body {
     background-color: #ffffff;
 }
 
+.logo {
+    width: 100px;
+    height: 100px;
+}
+
 .title {
     color: rgb(0, 66, 158);
     font-size: 3rem;
@@ -55,4 +60,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.hero-image {
+    height: 500px;
+    object-fit: cover;
 }
