@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #f3f3f3;
+    color: white;
+}
+
+.title {
+    color: rgb(0, 66, 158);
+    font-size: 3rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+}
+
+.signup-btn {
+    background-color: #ffffff;
+    color: rgb(0, 102, 255);
+    padding: 10px 20px;
+    border: 2px solid rgb(0, 29, 71);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.login-btn {
+    background-color: #003d7b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 900;
+}
