@@ -8,6 +8,14 @@ body {
     color: white;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+
 .title {
     color: rgb(0, 66, 158);
     font-size: 3rem;
