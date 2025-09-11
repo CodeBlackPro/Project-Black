@@ -192,6 +192,7 @@ async function loadContent(lessonId) {
     contentContainer.innerHTML = '';
     content.forEach(content => {
         const contentItem = document.createElement('p');
+        contentItem.classList.add('content-item');
         contentItem.textContent = content.content;
         contentContainer.appendChild(contentItem);
     });
