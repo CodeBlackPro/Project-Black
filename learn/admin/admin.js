@@ -169,9 +169,31 @@ async function loadLessons(moduleId) {
         }
         lessonItem.classList.add('lesson-item');
         lessonItem.addEventListener('click', () => {
-            console.log(lesson);
+            loadContent(lesson.id);
         });
         lessonContainer.appendChild(lessonItem);
+    });
+}
+
+async function fetchContent(lessonId) {
+    const {data, error} = await window.supabaseClient.from('contents').select('*').eq('lesson_id', lessonId);
+    if (error) {
+        console.error(error);
+        return [];
+    } else {
+        console.log(data);
+        return data;
+    }
+}
+
+async function loadContent(lessonId) {
+    const content = await fetchContent(lessonId);
+    const contentContainer = document.getElementById('content-container');
+    contentContainer.innerHTML = '';
+    content.forEach(content => {
+        const contentItem = document.createElement('p');
+        contentItem.textContent = content.content;
+        contentContainer.appendChild(contentItem);
     });
 }
 
