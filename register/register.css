@@ -162,8 +162,10 @@ header, main, footer {
 
 .character-lineup {
     display: flex;
+    max-width: 80vw;
     gap: 20px;
     align-items: center;
+    overflow-x: auto;
 }
 
 .character-btn {
