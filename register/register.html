@@ -63,6 +63,13 @@
 
                 night.appendChild(s);
             }
+
+            const speed = 0.3; // 0.3 = slow parallax; use 1 for full scroll speed
+            const onScroll = () => {
+                night.style.setProperty('--parallax', `${-window.scrollY * speed}px`);
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
         })();
     </script>
 </body>

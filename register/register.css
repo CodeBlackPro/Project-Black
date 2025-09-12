@@ -7,7 +7,7 @@
 body {
     background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%), #090a0f;
     color: white;
-    height: 100vh;
+    height: 100%;
 
 }
 
@@ -17,8 +17,8 @@ body {
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    transform: rotateZ(45deg);
-    background: none;
+    transform: translateY(var(--parallax, 0px)) rotateZ(45deg);
+    will-change: transform;
 }
 
 header, main, footer {
