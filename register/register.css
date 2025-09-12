@@ -1,0 +1,9 @@
+.course-btn {
+    aspect-ratio: 1/1;
+    height: 100px;
+}
+
+.course-btn img {
+    max-width: 100%;
+    height: auto;
+}
