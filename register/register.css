@@ -28,7 +28,7 @@ header, main, footer {
 
 .header {
     backdrop-filter: blur(5px);
-    box-shadow: 0 0 10px 0 #006eff;
+    box-shadow: 0 0 5px 0 #006eff;
     padding: 20px;
     height: 150px;
 }
@@ -61,9 +61,13 @@ header, main, footer {
     padding: 20px;
 }
 
+.course-section {
+    
+}
+
 .courses-grid {
     display: grid;
-    gap: 10px;
+    gap: 25px;
     width: 100%;
     max-width: 1000px;
     grid-template-columns: repeat(auto-fit, 200px);
@@ -74,9 +78,13 @@ header, main, footer {
 .course-btn {
     aspect-ratio: 1/1;
     width: 200px;
-    background-color: transparent;
+    background-color: #21212100;
     backdrop-filter: blur(5px);
-    box-shadow: 0 0 5px 0 #006eff;
+    box-shadow:
+    -1px -1px 2px 0px rgb(229, 229, 229), /* top left */
+    2px 0 5px 0px rgb(0, 0, 0), /* top right */
+    -2px 0 5px 0px rgb(0, 0, 0), /* bottom left */
+    2px 0 5px 0px rgb(0, 0, 0); /* bottom right */
     border-radius: 5%;
     border: none;
     color: white;
@@ -137,4 +145,26 @@ header, main, footer {
 @keyframes shooting {
     0% { transform: translateX(0); }
     100% { transform: translateX(var(--travel, 800px)); }
+}
+
+.character-lineup {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.character-btn {
+    background-color: #21212100;
+    border-radius: 5%;
+    display: inline-flex;
+    align-items: center;
+    height: 700px;
+    padding: 100px;
+}
+
+.character-btn img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    border-radius: 5%;
 }
