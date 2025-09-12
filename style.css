@@ -23,6 +23,12 @@ body {
     gap: 10px;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .logo {
     width: 100px;
     height: 100px;
