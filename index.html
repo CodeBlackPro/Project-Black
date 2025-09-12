@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="sky" aria-hidden="true"></div>
     <header class="header">
         <div class="header-left">
             <img src="Assets/test_logo.png" alt="logo" class="logo">
@@ -32,5 +33,36 @@
             <button class="course-btn"><img src="Assets/icons8-python-gradient/icons8-python-128.png" alt="course"></button>
         </div>
     </footer>
+    <script>
+        (() => {
+            const sky = document.querySelector('.sky');
+            if (!sky) return;
+            const COUNT = 60;
+            const rnd = (min, max) => Math.random() * (max - min) + min;
+
+            for (let i = 0; i < COUNT; i++) {
+                const s = document.createElement('span');
+                s.className = 'shooting-star';
+
+                const size = rnd(0.6, 1.6);
+                const tail = rnd(80, 160);
+                const startLeft = rnd(110, 180);
+                const startTop = rnd(-10, 110);
+                const delay = rnd(0, 8);
+                const duration = rnd(2.8, 5.2);
+                const driftY = rnd(-20, 20);
+
+                s.style.setProperty('--size', size + 'px');
+                s.style.setProperty('--tail', tail + 'px');
+                s.style.setProperty('--driftY', driftY + 'px');
+                s.style.top = startTop + 'vh';
+                s.style.left = startLeft + 'vw';
+                s.style.animationDelay = delay + 's';
+                s.style.animationDuration = duration + 's';
+
+                sky.appendChild(s);
+            }
+        })();
+    </script>
 </body>
 </html>

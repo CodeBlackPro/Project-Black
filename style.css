@@ -91,3 +91,88 @@ body {
     width: 50px;
     height: 50px;
 }
+
+.sky {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+    radial-gradient(120% 100% at 50% 100%, rgba(0, 10, 25, 0.8), transparent 70%),
+    radial-gradient(100% 100% at 50% 0%, rgba(0, 0, 0, 0.6), transparent 60%);
+}
+
+.sky::before {
+    content: "";
+    position: absolute;
+    inset: -10%;
+    background:
+        radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.7), transparent 60%),
+        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255, 255, 255, 0.5), transparent 55%),
+        radial-gradient(1.2px 1.2px at 70% 20%, rgba(255, 255, 255, 0.45), transparent 60%),
+        radial-gradient(1px 1px at 10% 60%, rgba(255, 255, 255, 0.35), transparent 55%),
+        radial-gradient(1px 1px at 85% 50%, rgba(255, 255, 255, 0.4), transparent 55%);
+    background-repeat: no-repeat;
+    filter: blur(0.3px);
+    opacity: 0.7;
+    z-index: 0;
+}
+
+header, main, footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* Shooting stars */
+.shooting-star {
+    --size: 1px;
+    --tail: 120px;
+    --driftY: 0vh;
+
+    position: absolute;
+    width: var(--tail);
+    height: var(--size);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(140, 220, 255, 0.0) 70%);
+    border-radius: 999px;
+    transform: translate3d(0, 0, 0) rotate(-20deg);
+    will-change: transform, opacity;
+    filter: drop-shadow(0 0 6px rgba(138, 216, 255, 0.8));
+    animation: shoot 4s linear infinite;
+}
+
+/* Optional: a bright head */
+.shooting-star::before {
+    content: "";
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: calc(var(--size) * 2.5);
+    height: calc(var(--size) * 2.5);
+    background: radial-gradient(circle, white, rgba(255, 255, 255, 0));
+    border-radius: 50%;
+    filter: blur(0.5px);
+}
+
+@keyframes shoot {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(-20deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(-180vw, var(--driftY), 0) rotate(-20deg);
+        opacity: 0;
+    }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .shooting-star {
+        animation: none;
+        opacity: 0.4;
+    }
+}
