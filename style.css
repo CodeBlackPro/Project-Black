@@ -54,10 +54,6 @@ body {
 }
 
 .hero-container {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-
     min-height: 72vh;
     color: rgb(255, 255, 255);
     display: flex;
@@ -66,42 +62,9 @@ body {
     justify-content: center;
 }
 
-.hero-container > * {
-    position: relative;
-    z-index: 2;
-}
-
-.hero-container::before {
-    content: "";
-    position: absolute;
-    inset: -20%;
-    background: radial-gradient(60% 80% at 15% 20%, rgba(0, 132, 255, 0.35), transparent 60%),
-    radial-gradient(50% 70% at 85% 75%, rgba(0, 255, 242, 0.25), transparent 60%),
-    radial-gradient(40% 60% at 60% 10%, rgba(0, 62, 255, 0.25), transparent 70%),
-    #0b1020;
-    filter: blur(22px) saturate(120%);
-    animation: heroFloat 14s ease-in-out infinite alternate;
-    z-index: 0;
-    transform: translateZ(0);
-}
-
-.hero-container::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(0deg, rgba(0, 200, 255, 0.07) 0 1px, transparent 1px 34px),
-    repeating-linear-gradient(90deg, rgba(0, 200, 255, 0.07) 0 1px, transparent 1px 34px);
-    opacity: 0.35;
-    mix-blend-mode: screen;
-    animation: gridDrift 10s linear infinite;
-    z-index: 1;
-    pointer-events: none;
-}
-
 .hero-image {
     height: 500px;
     object-fit: cover;
-    filter: drop-shadow(0 24px 48px rgba(0, 153, 255, 0.35));
 }
 
 .footer-center {
