@@ -1,6 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%), #090a0f;
+    color: white;
+    height: 100vh;
+}
+
 .course-btn {
     aspect-ratio: 1/1;
     height: 100px;
+    background-color: #212121;
+    border-radius: 5%;
+    border: none;
+
 }
 
 .course-btn img {
