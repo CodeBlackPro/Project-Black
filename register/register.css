@@ -62,8 +62,21 @@ header, main, footer {
 }
 
 .course-section {
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
+
+.character-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
 
 .courses-grid {
     display: grid;
@@ -155,8 +168,10 @@ header, main, footer {
 
 .character-btn {
     background-color: #21212100;
-    border-radius: 5%;
+    backdrop-filter: blur(5px);
+    border-radius: 1%;
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
     height: 700px;
     padding: 100px;
@@ -167,4 +182,11 @@ header, main, footer {
     width: auto;
     object-fit: cover;
     border-radius: 5%;
+}
+
+.character-btn p {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+    font-family: 'Poppins', sans-serif;
 }
