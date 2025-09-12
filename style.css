@@ -3,8 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
-    background-color: #2a2a2a;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%), #090a0f;
     color: white;
 }
 
@@ -13,8 +14,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: rgba(33, 33, 33, 0.6);
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(5px);
 }
 
 .logo {
@@ -73,7 +73,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    background-color: #212121;
+    backdrop-filter: blur(5px);
     padding: 20px 0;
 }
 
@@ -101,7 +101,7 @@ body {
     pointer-events: none;
     overflow: hidden;
     transform: rotateZ(45deg);
-    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    background: none;
 }
 
 /* keep all content above the background */
@@ -146,20 +146,19 @@ header, main, footer {
     transform: translateX(50%) rotateZ(-45deg);
 }
 
-/* keyframes from Yusuke’s SCSS */
 @keyframes tail {
     0% { width: 0; }
-    30% { width: 100px; }
+    30% { width: var(--tail, 140px); }
     100% { width: 0; }
 }
 
 @keyframes shining {
     0% { width: 0; }
-    50% { width: 30px; }
+    50% { width: calc(var(--tail, 140px) * 0.3); }
     100% { width: 0; }
 }
 
 @keyframes shooting {
     0% { transform: translateX(0); }
-    100% { transform: translateX(300px); }
+    100% { transform: translateX(var(--travel, 800px)); }
 }
