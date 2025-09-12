@@ -36,10 +36,10 @@ body {
 }
 
 .signup-btn {
-    background-color: #ffffff;
-    color: rgb(0, 102, 255);
+    background-color: rgb(0, 102, 255);
+    color: white;
     padding: 10px 20px;
-    border: 1px solid rgb(0, 29, 71);
+    border: none;
     border-radius: 5px;
     font-size: 1rem;
     font-weight: 900;
@@ -47,14 +47,15 @@ body {
 
 .signup-btn:hover {
     cursor: pointer;
-    background-color: rgb(242, 242, 242);
+    background-color: rgb(0, 102, 255);
 }
 
 .login-btn {
-    background-color: #003d7b;
-    color: white;
+    background-color: transparent;
+    border: 2px solid #212121;
+    border-bottom-width: 4px;
+    color: rgb(0, 102, 255);
     padding: 10px 20px;
-    border: none;
     border-radius: 5px;
     font-size: 1rem;
     font-weight: 900;
