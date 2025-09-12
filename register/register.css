@@ -20,6 +20,7 @@ main {
     display: grid;
     gap: 10px;
     width: 100%;
+    max-width: 1000px;
     grid-template-columns: repeat(auto-fit, 200px);
     justify-content: center;
     margin: 0 auto;
