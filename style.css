@@ -66,3 +66,17 @@ body {
     height: 500px;
     object-fit: cover;
 }
+
+.footer-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.course-btn {
+    aspect-ratio: 1/1;
+    border: none;
+    border-radius: 5%;
+    height: 50px;
+}
