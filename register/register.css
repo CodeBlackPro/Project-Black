@@ -28,6 +28,7 @@ header, main, footer {
 
 .header {
     backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px 0 #006eff;
     padding: 20px;
     height: 150px;
 }
@@ -73,12 +74,13 @@ header, main, footer {
 .course-btn {
     aspect-ratio: 1/1;
     width: 200px;
-    background-color: #212121;
+    background-color: transparent;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 5px 0 #006eff;
     border-radius: 5%;
     border: none;
     color: white;
     padding: 10px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
