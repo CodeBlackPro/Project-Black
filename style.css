@@ -17,13 +17,19 @@ body {
     backdrop-filter: blur(5px);
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .logo {
     width: 100px;
     height: 100px;
 }
 
 .title {
-    color: rgb(0, 66, 158);
+    color: rgba(95,145,255,1);
     font-size: 3rem;
     font-weight: 900;
     font-family: 'Poppins', sans-serif;
