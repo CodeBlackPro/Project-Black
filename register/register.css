@@ -261,37 +261,3 @@ header, main, footer {
     0% { transform: translateX(0); }
     100% { transform: translateX(var(--travel, 800px)); }
 }
-
-.character-lineup {
-    display: flex;
-    max-width: 80vw;
-    gap: 20px;
-    align-items: center;
-    overflow-x: auto;
-}
-
-.character-btn {
-    background-color: #21212100;
-    backdrop-filter: blur(5px);
-    border-radius: 1%;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    height: 700px;
-    padding: 100px;
-}
-
-.character-btn img {
-    height: 100%;
-    width: auto;
-    object-fit: cover;
-    border-radius: 5%;
-}
-
-.character-btn p {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-}
-
