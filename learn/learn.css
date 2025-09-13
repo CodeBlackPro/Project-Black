@@ -13,17 +13,16 @@ body {
     width: 400px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    row-gap: 10px;
+    gap: 12px;
 }
 
 
 .unit-btn {
     aspect-ratio: 1/1;
-    padding: 3rem;
+    padding: 1rem;
+    border-radius: 5px;
     color: white;
-    background: rgba(2, 2, 2, 0.295);
-    border: none;
-    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+    background: rgb(21, 21, 21);
 }
 
 .unit-modal {
