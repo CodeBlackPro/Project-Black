@@ -61,6 +61,54 @@ header, main, footer {
     padding: 20px;
 }
 
+.Category-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.categories-grid {
+    display: grid;
+    gap: 25px;
+    width: 100%;
+    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, 200px);
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.category-btn {
+    aspect-ratio: 1/1;
+    width: 200px;
+    background-color: #21212100;
+    backdrop-filter: blur(5px);
+    border-radius: 5px;
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.category-btn img {
+    height: 96px;
+    width: auto;
+    object-fit: cover;
+    border-radius: 5%;
+}
+
+.category-btn p {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+
 .course-section {
     display: flex;
     flex-direction: column;
@@ -93,13 +141,7 @@ header, main, footer {
     width: 200px;
     background-color: #21212100;
     backdrop-filter: blur(5px);
-    box-shadow:
-    -1px -1px 2px 0px rgb(229, 229, 229), /* top left */
-    2px 0 5px 0px rgb(0, 0, 0), /* top right */
-    -2px 0 5px 0px rgb(0, 0, 0), /* bottom left */
-    2px 0 5px 0px rgb(0, 0, 0); /* bottom right */
-    border-radius: 5%;
-    border: none;
+    border-radius: 5px;
     color: white;
     padding: 10px;
     display: flex;
@@ -107,6 +149,20 @@ header, main, footer {
     align-items: center;
     justify-content: center;
     gap: 10px;
+}
+
+.course-btn img {
+    height: 96px;
+    width: auto;
+    object-fit: cover;
+    border-radius: 5%;
+}
+
+.course-btn p {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+    font-family: 'Poppins', sans-serif;
 }
 
 .shooting_star {
@@ -192,3 +248,4 @@ header, main, footer {
     color: white;
     font-family: 'Poppins', sans-serif;
 }
+
