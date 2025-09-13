@@ -196,6 +196,20 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+.units-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 300px;
+    max-width: 900px;
+    background-color: #212121;
+    border: 1px solid #939393;
+    border-radius: 5px;
+    padding: 20px;
+    color: rgb(0, 102, 255);
+}
+
 .unit-grid {
     width: 400px;
     display: grid;
@@ -229,6 +243,90 @@ body {
     font-size: 1.2rem;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #939393 #000000 #000000 #939393;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: #212121;
+    border: 1px solid #939393;
+    border-radius: 5px;
+    padding: 20px;
+    color: rgb(0, 102, 255);
+}
+
+.lesson-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.lesson-image {
+    height: 400px;
+    width: auto;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.lesson-question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+.lesson-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.lesson-content-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+.lesson-question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.lesson-question-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #939393 #000000 #000000 #939393;
+}
+
+.lesson-question-tokens {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.lesson-question-token {
+    padding: 10px;
     border-radius: 5px;
     border-style: solid;
     border-width: 1px;
