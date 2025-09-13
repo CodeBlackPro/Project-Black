@@ -9,23 +9,6 @@ body {
     color: white;
 }
 
-.courses-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: 700px;
-    gap: 10px;
-}
-
-.course-btn {
-    aspect-ratio: 1/1;
-    border: none;
-    border-radius: 5%;
-    background-color: #003893;
-    color: white;
-    font-weight: 900;
-    font-size: 1rem;
-}
-
 .unit-grid {
     width: 400px;
     display: grid;
@@ -36,13 +19,11 @@ body {
 
 .unit-btn {
     aspect-ratio: 1/1;
-    width: 100px;
-    border: none;
-    border-radius: 50%;
-    background-color: #003d7b;
+    padding: 3rem;
     color: white;
-    font-weight: 900;
-    font-size: 1rem;
+    background: rgba(2, 2, 2, 0.295);
+    border: none;
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
 }
 
 .unit-modal {
