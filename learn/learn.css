@@ -11,6 +11,16 @@ body {
 
 }
 
+button {
+    background-color: #212121;
+    color: white;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+}
+
 .header {
     backdrop-filter: blur(5px);
     box-shadow: 0 0 5px 0 #006eff;
@@ -201,7 +211,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 300px;
+    min-width: 400px;
     max-width: 900px;
     background-color: #212121;
     border: 1px solid #939393;
@@ -211,7 +221,7 @@ body {
 }
 
 .unit-grid {
-    width: 400px;
+    width: fit-content;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 12px;
@@ -254,6 +264,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    max-width: 800px;
     gap: 20px;
     background-color: #212121;
     border: 1px solid #939393;
@@ -305,6 +317,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    max-width: 800px;
     gap: 20px;
 }
 

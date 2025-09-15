@@ -9,6 +9,10 @@ body {
     color: white;
 }
 
+button {
+    background-color: #212121;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -36,17 +40,15 @@ body {
 }
 
 .title {
-    color: rgba(95,145,255,1);
+    color: rgb(95,145,255);
     font-size: 3rem;
     font-weight: 900;
     font-family: 'Poppins', sans-serif;
 }
 
 .signup-btn {
-    background-color: rgb(0, 102, 255);
-    color: white;
+    color: rgb(95, 145, 255);
     padding: 10px 20px;
-    border: none;
     border-radius: 5px;
     font-size: 1rem;
     font-weight: 900;
