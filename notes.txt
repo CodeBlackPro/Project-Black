@@ -1,6 +1,0 @@
-Poop Notes
-
-1 - Okay so I created the units table. Check and see if it is exactly what you wanted. I also added a column that is the course_id for the specific unit (not sure if the linking is correct but I'll leave that up for you to decide)
-
-2 - In the courses table, I added another column called 'subscribers' as a way to gauge how many subscribers are on a particular course in total. That way, if we need to get something like top 5 lessons, then it would be much easier 
-to bookkeep. 
