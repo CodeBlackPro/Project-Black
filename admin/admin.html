@@ -10,32 +10,60 @@
 </head>
 <body>
     <div class="night" aria-hidden="true"></div>
-    <div>
-        <section>
-            <input type="text" id="category-name" placeholder="Category Name">
-            <input type="text" id="category-description" placeholder="Category Description">
-            <input type="text" id="category-image" placeholder="Category Image">
-            <input type="text" id="category-sort-order" placeholder="Sort Order">
-            <input type="text" id="category-status" placeholder="Active Status">
-            <button id="add-category">Add Category</button>
-        </section>
-        <section>
-            <select>
-                <option>Select Category</option>
-                <option>Category 1</option>
-                <option>Category 2</option>
-                <option>Category 3</option>
-                <option>Category 4</option>
-                <option>Category 5</option>
-                <option>Category 6</option>
-                <option>Category 7</option>
-            </select>
-            <div>
-                <button><img src="#" alt="Category Image"><p>Category Name</p></button>
-                <p>Description | Sort Order | Active Status</p>
-            </div>
-        </section>
-    </div>
+    <main>
+        <div id="category-container">
+            <section>
+                <input type="text" id="category-name" placeholder="Category Name">
+                <textarea id="category-description" placeholder="Category Description"></textarea>
+                <input type="text" id="category-image" placeholder="Category Image">
+                <input type="text" id="category-sort-order" placeholder="Sort Order">
+                <input type="text" id="category-status" placeholder="Active Status">
+                <button id="add-category-btn">Add Category</button>
+            </section>
+            <section>
+                <select>
+                    <option>Select Category</option>
+                    <option>Category 1</option>
+                    <option>Category 2</option>
+                    <option>Category 3</option>
+                    <option>Category 4</option>
+                    <option>Category 5</option>
+                    <option>Category 6</option>
+                    <option>Category 7</option>
+                </select>
+                <div>
+                    <button><img src="#" alt="Category Image"><p>Category Name</p></button>
+                    <p>Description | Sort Order | Active Status</p>
+                </div>
+            </section>
+        </div>
+        <div id="subject-container">
+            <section>
+                <input type="text" id="subject-name" placeholder="Subject Name">
+                <textarea id="subject-description" placeholder="Subject Description"></textarea>
+                <input type="text" id="subject-image" placeholder="Subject Image">
+                <input type="text" id="subject-sort-order" placeholder="Sort Order">
+                <input type="text" id="subject-status" placeholder="Active Status">
+                <button id="add-subject-btn">Add Subject</button>
+            </section>
+            <section>
+                <select>
+                    <option>Select Subject</option>
+                    <option>Subject 1</option>
+                    <option>Subject 2</option>
+                    <option>Subject 3</option>
+                    <option>Subject 4</option>
+                    <option>Subject 5</option>
+                    <option>Subject 6</option>
+                    <option>Subject 7</option>
+                </select>
+                <div>
+                    <button><img src="#" alt="Subject Image"><p>Subject Name</p></button>
+                    <p>Description | Sort Order | Active Status</p>
+                </div>
+            </section>
+        </div>
+    </main>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="key.js"></script>
     <script src="admin.js"></script>

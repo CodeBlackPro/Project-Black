@@ -1,0 +1,19 @@
+input {
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+textarea {
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+}
+
+button {
+    padding: 10px;
+}
+
