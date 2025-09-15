@@ -4,39 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/Assets/shooting_star.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+    <div class="night" aria-hidden="true"></div>
     <div>
-        <div id="category-container">
-            <h5>Category Name</h5>
-            <p>Description</p>
-        </div>
-        <div id="subject-container">
-            <h5>Subject Name</h5>
-            <p>Description</p>
-        </div>
-        <div id="course-container">
-            <h5>Course</h5>
-            <p>Description</p>
-        </div>
-        <div id="module-container">
-            <h5>Module</h5>
-            <p>Description</p>
-        </div>
-        <div id="lesson-container">
-            <h5>Lesson</h5>
-            <p>Description</p>
-        </div>
-        <div id="content-container">
-            <p>Content Paragraph</p>
-        </div>
-        <div id="question-set-container">
-            <h5>Question Set</h5>
-        </div>
+        <section>
+            <input type="text" id="category-name" placeholder="Category Name">
+            <input type="text" id="category-description" placeholder="Category Description">
+            <input type="text" id="category-image" placeholder="Category Image">
+            <input type="text" id="category-sort-order" placeholder="Sort Order">
+            <input type="text" id="category-status" placeholder="Active Status">
+            <button id="add-category">Add Category</button>
+        </section>
+        <section>
+            <select>
+                <option>Select Category</option>
+                <option>Category 1</option>
+                <option>Category 2</option>
+                <option>Category 3</option>
+                <option>Category 4</option>
+                <option>Category 5</option>
+                <option>Category 6</option>
+                <option>Category 7</option>
+            </select>
+            <div>
+                <button><img src="#" alt="Category Image"><p>Category Name</p></button>
+                <p>Description | Sort Order | Active Status</p>
+            </div>
+        </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="key.js"></script>
     <script src="admin.js"></script>
+    <script src="/Assets/shooting_star.js"></script>
 </body>
 </html>
