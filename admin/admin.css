@@ -17,3 +17,10 @@ button {
     padding: 10px;
 }
 
+#category-item {
+    display: none;
+}
+
+#subject-container {
+    display: none;
+}

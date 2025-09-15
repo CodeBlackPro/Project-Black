@@ -42,27 +42,10 @@ async function fetchSubjects(categoryId) {
 }
 
 async function loadSubjects(categoryId) {
-    const subjects = await fetchSubjects(categoryId);
     const subjectContainer = document.getElementById('subject-container');
-    subjectContainer.innerHTML = '';
-    subjects.forEach(subject => {
-        const subItem = document.createElement('div');
-        if(subject.name) {
-            const subTitle = document.createElement('h5');
-            subTitle.textContent = subject.name;
-            subItem.appendChild(subTitle);
-        }
-        if(subject.description) {
-            const subDescription = document.createElement('p');
-            subDescription.textContent = subject.description;
-            subItem.appendChild(subDescription);
-        }
-        subItem.classList.add('subject-item');
-        subItem.addEventListener('click', () => {
-            loadCourses(subject.id);
-        });
-        subjectContainer.appendChild(subItem);
-    });
+    subjectContainer.style.display = 'block';
+    const subjects = await fetchSubjects(categoryId);
+    const subjectSelectContainer = document.getElementById('subject-select');
 }
 
 async function fetchCourses(subjectId) {
