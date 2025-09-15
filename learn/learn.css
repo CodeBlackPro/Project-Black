@@ -93,6 +93,7 @@ button {
     width: auto;
     object-fit: cover;
     border-radius: 5%;
+    pointer-events: none;
 }
 
 .category-btn p {
@@ -100,6 +101,7 @@ button {
     font-weight: 900;
     color: white;
     font-family: 'Poppins', sans-serif;
+    pointer-events: none;
 }
 
 
