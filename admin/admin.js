@@ -23,6 +23,16 @@ async function loadCategories() {
             categorySelectContainer.appendChild(option);
         });
         categorySelectContainer.addEventListener('change', () => {
+            const categoryItem = document.getElementById('category-item');
+            categoryItem.style.display = 'block';
+            categoryItem.innerHTML = '';
+            const button = document.createElement('button');
+            button.innerHTML += '<img src="' + categories.find(c => c.id == categorySelectContainer.value).image + '" alt="Category Image">';
+            button.innerHTML += '<p>' + categories.find(c => c.id == categorySelectContainer.value).name + '</p>';
+            categoryItem.appendChild(button);
+            const description = document.createElement('p');
+            description.textContent = (categories.find(c => c.id == categorySelectContainer.value).description == null ? 'No description' : categories.find(c => c.id == categorySelectContainer.value).description);
+            categoryItem.appendChild(description);
             loadSubjects(categorySelectContainer.value);
         });
     } else {
