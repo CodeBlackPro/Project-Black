@@ -13,26 +13,21 @@ async function fetchCategories() {
 
 async function loadCategories() {
     const categories = await fetchCategories();
-    const categoryContainer = document.getElementById('category-container');
-    categoryContainer.innerHTML = '';
-    categories.forEach(category => {
-        const catItem = document.createElement('div');
-        if(category.name){
-            const catTitle = document.createElement('h5');
-            catTitle.textContent = category.name;
-            catItem.appendChild(catTitle);
-        }
-        if(category.description){
-        const catDescription = document.createElement('p');
-            catDescription.textContent = category.description;
-            catItem.appendChild(catDescription);
-        }
-        catItem.classList.add('category-item');
-        catItem.addEventListener('click', () => {
-            loadSubjects(category.id);
+    const categorySelectContainer = document.getElementById('category-select');
+    categorySelectContainer.innerHTML = '<option>Select Category</option>';
+    if(categories.length > 0) {
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.textContent = category.name + ' | ' + (category.description == null ? 'No description' : category.description);
+            categorySelectContainer.appendChild(option);
         });
-        categoryContainer.appendChild(catItem);
-    });
+        categorySelectContainer.addEventListener('change', () => {
+            loadSubjects(categorySelectContainer.value);
+        });
+    } else {
+        categorySelectContainer.innerHTML = '<option>No categories found</option>';
+    }
 }
 
 async function fetchSubjects(categoryId) {
