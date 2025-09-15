@@ -336,3 +336,10 @@ button {
 .lesson-question-token {
     padding: 10px;
 }
+
+.token-hotkey-text {
+    font-size: 0.7rem;
+    font-weight: 100;
+    color: #939393;
+    font-family: 'Poppins', sans-serif;
+}
