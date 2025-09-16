@@ -24,3 +24,11 @@ button {
 #subject-container {
     display: none;
 }
+
+#subject-item {
+    display: none;
+}
+
+#course-container {
+    display: none;
+}

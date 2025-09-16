@@ -17,6 +17,7 @@ async function renderCategories() {
     categorySelectContainer.innerHTML = '<option>Select Category</option>';
     if(categories.length > 0) {
         categories.forEach(category => {
+            if(!category.is_active) return;
             const option = document.createElement('option');
             option.value = category.id;
             option.textContent = category.name + ' | ' + (category.description == null ? 'No description' : category.description);
@@ -56,6 +57,31 @@ async function renderSubjects(categoryId) {
     subjectContainer.style.display = 'block';
     const subjects = await fetchSubjects(categoryId);
     const subjectSelectContainer = document.getElementById('subject-select');
+    subjectSelectContainer.innerHTML = '<option>Select Subject</option>';
+    if(subjects.length > 0) {
+        subjects.forEach(subject => {
+            if(!subject.is_active) return;
+            const option = document.createElement('option');
+            option.value = subject.id;
+            option.textContent = subject.name;
+            subjectSelectContainer.appendChild(option);
+        });
+        subjectSelectContainer.addEventListener('change', () => {
+            const subjectItem = document.getElementById('subject-item');
+            subjectItem.style.display = 'block';
+            subjectItem.innerHTML = '';
+            const button = document.createElement('button');
+            button.innerHTML += '<img src="' + subjects.find(s => s.id == subjectSelectContainer.value).image + '" alt="Subject Image">';
+            button.innerHTML += '<p>' + subjects.find(s => s.id == subjectSelectContainer.value).name + '</p>';
+            subjectItem.appendChild(button);
+            const description = document.createElement('p');
+            description.textContent = (subjects.find(s => s.id == subjectSelectContainer.value).description == null ? 'No description' : subjects.find(s => s.id == subjectSelectContainer.value).description);
+            subjectItem.appendChild(description);
+            renderCourses(subjectSelectContainer.value);
+        });
+    } else {
+        subjectSelectContainer.innerHTML = '<option>No subjects found</option>';
+    }
 }
 
 async function fetchCourses(subjectId) {
