@@ -11,7 +11,7 @@ async function fetchCategories() {
     }
 }
 
-async function loadCategories() {
+async function renderCategories() {
     const categories = await fetchCategories();
     const categorySelectContainer = document.getElementById('category-select');
     categorySelectContainer.innerHTML = '<option>Select Category</option>';
@@ -33,7 +33,7 @@ async function loadCategories() {
             const description = document.createElement('p');
             description.textContent = (categories.find(c => c.id == categorySelectContainer.value).description == null ? 'No description' : categories.find(c => c.id == categorySelectContainer.value).description);
             categoryItem.appendChild(description);
-            loadSubjects(categorySelectContainer.value);
+            renderSubjects(categorySelectContainer.value);
         });
     } else {
         categorySelectContainer.innerHTML = '<option>No categories found</option>';
@@ -51,7 +51,7 @@ async function fetchSubjects(categoryId) {
     }
 }
 
-async function loadSubjects(categoryId) {
+async function renderSubjects(categoryId) {
     const subjectContainer = document.getElementById('subject-container');
     subjectContainer.style.display = 'block';
     const subjects = await fetchSubjects(categoryId);
@@ -69,7 +69,7 @@ async function fetchCourses(subjectId) {
     }
 }
 
-async function loadCourses(subjectId) {
+async function renderCourses(subjectId) {
     const courses = await fetchCourses(subjectId);
     const courseContainer = document.getElementById('course-container');
     courseContainer.innerHTML = '';
@@ -104,7 +104,7 @@ async function fetchModules(courseId) {
     }
 }
 
-async function loadModules(courseId) {
+async function renderModules(courseId) {
     const modules = await fetchModules(courseId);
     const moduleContainer = document.getElementById('module-container');
     moduleContainer.innerHTML = '';
@@ -139,7 +139,7 @@ async function fetchLessons(moduleId) {
     }
 }
 
-async function loadLessons(moduleId) {
+async function renderLessons(moduleId) {
     const lessons = await fetchLessons(moduleId);
     const lessonContainer = document.getElementById('lesson-container');
     lessonContainer.innerHTML = '';
@@ -174,7 +174,7 @@ async function fetchContent(lessonId) {
     }
 }
 
-async function loadContent(lessonId) {
+async function renderContent(lessonId) {
     const content = await fetchContent(lessonId);
     const contentContainer = document.getElementById('content-container');
     contentContainer.innerHTML = '';
@@ -186,4 +186,4 @@ async function loadContent(lessonId) {
     });
 }
 
-loadCategories();
+renderCategories();
