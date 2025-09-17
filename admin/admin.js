@@ -63,17 +63,22 @@ async function renderSubjects(categoryId) {
     const subjectContainer = document.getElementById('subject-container');
     subjectContainer.style.display = 'block';
     document.getElementById('subject-category-id').value = categoryId;
+    let sortOrder = -1;
     const subjects = await fetchSubjects(categoryId);
     const subjectSelectContainer = document.getElementById('subject-select');
     subjectSelectContainer.innerHTML = '<option>Select Subject</option>';
     if(subjects.length > 0) {
         subjects.forEach(subject => {
+            if(subject.sort_order >= sortOrder) {
+                sortOrder = subject.sort_order + 1;
+            }
             if(!subject.is_active) return;
             const option = document.createElement('option');
             option.value = subject.id;
             option.textContent = subject.name;
             subjectSelectContainer.appendChild(option);
         });
+        document.getElementById('subject-sort-order').value = sortOrder;
         subjectSelectContainer.addEventListener('change', () => {
             const subjectItem = document.getElementById('subject-item');
             subjectItem.style.display = 'block';
@@ -84,6 +89,7 @@ async function renderSubjects(categoryId) {
             subjectItem.appendChild(button);
             const description = document.createElement('p');
             description.textContent = (subjects.find(s => s.id == subjectSelectContainer.value).description == null ? 'No description' : subjects.find(s => s.id == subjectSelectContainer.value).description);
+            description.textContent += ' | Active Status: ' + (subjects.find(s => s.id == subjectSelectContainer.value).is_active == null ? 'No active status' : subjects.find(s => s.id == subjectSelectContainer.value).is_active);
             subjectItem.appendChild(description);
             renderCourses(subjectSelectContainer.value);
         });
