@@ -1,27 +1,73 @@
 window.supabaseClient = window.supabase.createClient(supabaseUrl, publishKey);
 
-// 1 - Category button functionalities (dummy function)
-const categoriesButtonLogic = async (event) => {
+const renderCategories = async () => {
 
-    const courseSelected = event.target.innerText; 
-
-    const { data, error } = await supabaseClient
+    const { data: categories, error } = await supabaseClient
         .from('categories')
-        .select('id')
-        .eq('name', courseSelected)
-        .single();
+        .select('name')
+
+    // Construct the section
+    const section = document.createElement('section');
+    section.className = 'category-section';
     
-    if (error) {
-        console.error('Category not found:', error);
-        return;
-    }
-    
-    const category_id = data.id
-    populateSubjects(category_id);
+    const heading = document.createElement('h2');
+    heading.textContent = `Select A Category`;
+    heading.style.textAlign = 'center';
+    heading.style.gap = '25px';
+    section.appendChild(heading);
+
+    const categoriesGrid = document.createElement('div');
+    categoriesGrid.className = 'categories-grid';
+
+    // Create subject buttons dynamically
+    categories.forEach(category => {
+        const categoryBtn = document.createElement('button');
+        categoryBtn.className = 'category-btn';
+        categoryBtn.innerHTML = `
+            <img src="${category.img_src}">
+            <p>${category.name}</p>
+        `;
+        
+        // Add click handler for individual subjects
+        categoryBtn.addEventListener('click', () => {
+            categoriesButtonLogic(subject.name);
+        });
+
+        categoriesGrid.appendChild(categoryBtn);
+    });
+
+    section.appendChild(categoriesGrid);
+
+    // Attach it adjacent to the category section
+    const mainSection = document.querySelector('.main')
+    mainSection.insertAdjacentElement('afterend', section);
+
+    // Show the section
+    const categorySection = document.querySelector('.category-section');
+    categorySection.style.display = 'block';
+
+
 
 }
 
-const populateSubjects = async (category_id) => {
+// 1 - Category button functionalities (dummy function)
+const categoriesButtonLogic = async (course_name) => { 
+    
+    const { data: category_id, error } = await supabaseClient
+        .from('categories')
+        .select('id')
+        .eq('name', course_name);
+    
+    if(error) {
+        console.log("Error returned from categoriesButtonLogic()")
+        return
+    }
+
+    renderSubjects(category_id); 
+
+}
+
+const renderSubjects = async (category_id) => {
 
     try {
 
@@ -29,7 +75,7 @@ const populateSubjects = async (category_id) => {
         const existingSection = document.querySelector('.subject-section');
         if (existingSection) {
             console.log('Subject section already exists!');
-            return; // Exit the function early
+            return; 
         }
 
         // Query Supabase for subjects in the selected category
@@ -66,7 +112,7 @@ const populateSubjects = async (category_id) => {
             
             // Add click handler for individual subjects
             subjectBtn.addEventListener('click', () => {
-                handleSubjectClick(subject.name);
+                subjectButtonLogic(subject.name);
             });
 
             subjectsGrid.appendChild(subjectBtn);
@@ -90,21 +136,9 @@ const populateSubjects = async (category_id) => {
 
 
 // 2 - Subject button functionalities (dummy function)
-const subjectButtonLogic = (event) => {
+const subjectButtonLogic = (subject_name) => {
    
-    const subjectActions = {
-        "HTML": () => console.log("HTML Subject Clicked"),
-        "CSS": () => console.log("CSS Subject Clicked"),
-        "JavaScript": () => console.log("JavaScript Subject Clicked"),
-        "Python": () => console.log("Python Subject Clicked")
-    };
-
-    const action = subjectActions[event.target.innerText];
-    if (action) {
-        action();
-    } else {
-        console.log("Unknown subject clicked");
-    }
+    console.log(subject_name);
 }
 
 // 3 - Lesson button functionalities (dummy function)
@@ -127,6 +161,11 @@ const lessonButtonLogic = (event) => {
 // When all the HTML loads
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Render categories function 
+    renderCategories();
+
+
+
 
     document.querySelectorAll('.category-btn').forEach(button => {
         button.addEventListener('click', function(event) {
@@ -134,12 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    document.querySelectorAll('.subject-btn').forEach(button => {
-        button.addEventListener('click', function(event) {
-            subjectButtonLogic(event);
-        });
-    });
-
+  
     document.querySelectorAll('.unit-btn').forEach(button => {
         button.addEventListener('click', function(event) {
             lessonButtonLogic(event);
