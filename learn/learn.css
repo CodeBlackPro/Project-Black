@@ -63,7 +63,7 @@ button {
     gap: 20px;
 }
 
-.categories-grid {
+#categories-grid {
     display: grid;
     gap: 25px;
     width: 100%;
@@ -113,7 +113,7 @@ button {
     gap: 20px;
 }
 
-.subjects-grid {
+#subjects-grid {
     display: grid;
     gap: 25px;
     width: 100%;
