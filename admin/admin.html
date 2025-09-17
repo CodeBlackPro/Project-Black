@@ -39,6 +39,7 @@
         </div>
         <div id="subject-container">
             <section>
+                <select id="parent-category-select"><option>Select Parent Category</option></select>
                 <input type="text" id="subject-name" placeholder="Subject Name">
                 <textarea id="subject-description" placeholder="Subject Description"></textarea>
                 <input type="text" id="subject-image" placeholder="Subject Image">
@@ -65,6 +66,7 @@
         </div>
         <div id="course-container">
             <section>
+                <select id="parent-subject-select"><option>Select Parent Subject</option></select>
                 <input type="text" id="course-name" placeholder="Course Name">
                 <textarea id="course-description" placeholder="Course Description"></textarea>
                 <input type="text" id="course-image" placeholder="Course Image">
@@ -91,6 +93,7 @@
         </div>
         <div id="unit-container">
             <section>
+                <select id="parent-course-select"><option>Select Parent Course</option></select>
                 <input type="text" id="unit-name" placeholder="Unit Name">
                 <textarea id="unit-description" placeholder="Unit Description"></textarea>
                 <input type="text" id="unit-image" placeholder="Unit Image">
@@ -113,6 +116,27 @@
                     <button><img src="#" alt="Unit Image"><p>Unit Name</p></button>
                     <p>Description | Sort Order | Active Status</p>
                 </div>
+            </section>
+        </div>
+        <div id="lesson-container">
+            <section>
+                <select id="parent-unit-select">
+                    <option>Select Parent Unit</option>
+                </select><br>
+                <input type="text" id="lesson-name" placeholder="Lesson Name">
+                <textarea id="lesson-description" placeholder="Lesson Description"></textarea>
+                <input type="text" id="lesson-image" placeholder="Lesson Image">
+                <input type="text" id="lesson-sort-order" placeholder="Sort Order">
+                <input type="text" id="lesson-status" placeholder="Active Status">
+                <button id="add-lesson-btn">Add Lesson</button>
+            </section>
+            <section>
+                <select id="lesson-select">
+                    <option>Select Lesson</option>
+                    <option>Lesson 1</option>
+                    <option>Lesson 2</option>
+                    <option>Lesson 3</option>
+                </select>
             </section>
         </div>
     </main>
