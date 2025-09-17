@@ -44,3 +44,27 @@ button {
 #unit-item {
     display: none;
 }
+
+#lesson-container {
+    display: none;
+}
+
+#lesson-item {
+    display: none;
+}
+
+#content-container {
+    display: none;
+}
+
+#content-item {
+    display: none;
+}
+
+#question-container {
+    display: none;
+}
+
+#question-item {
+    display: none;
+}
