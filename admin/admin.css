@@ -29,4 +29,18 @@ button {
     display: none;
 }
 
+#course-container {
+    display: none;
+}
 
+#course-item {
+    display: none;
+}
+
+#unit-container {
+    display: none;
+}
+
+#unit-item {
+    display: none;
+}

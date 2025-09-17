@@ -72,7 +72,7 @@ async function renderSubjects(categoryId) {
             subjectItem.style.display = 'block';
             subjectItem.innerHTML = '';
             const button = document.createElement('button');
-            button.innerHTML += '<img src="' + subjects.find(s => s.id == subjectSelectContainer.value).image + '" alt="Subject Image">';
+            button.innerHTML += '<img src="' + subjects.find(s => s.id == subjectSelectContainer.value).image_url + '" alt="Subject Image">';
             button.innerHTML += '<p>' + subjects.find(s => s.id == subjectSelectContainer.value).name + '</p>';
             subjectItem.appendChild(button);
             const description = document.createElement('p');
@@ -99,29 +99,35 @@ async function fetchCourses(subjectId) {
 async function renderCourses(subjectId) {
     const courses = await fetchCourses(subjectId);
     const courseContainer = document.getElementById('course-container');
-    courseContainer.innerHTML = '';
+    courseContainer.style.display = 'block';
+    const courseSelectContainer = document.getElementById('course-select');
+    courseSelectContainer.innerHTML = '<option>Select Course</option>';
     courses.forEach(course => {
-        const courseItem = document.createElement('div');
-        if(course.name) {
-            const courseTitle = document.createElement('h5');
-            courseTitle.textContent = course.name;
-            courseItem.appendChild(courseTitle);
+        if(!course.is_active) return;
+        const option = document.createElement('option');
+        option.value = course.id;
+        option.textContent = course.name;
+        courseSelectContainer.appendChild(option);
+    });
+    courseSelectContainer.addEventListener('change', () => {
+        const courseItem = document.getElementById('course-item');
+        if(courseItem.style.display != 'block') {
+            courseItem.style.display = 'block';
         }
-        if(course.description) {
-            const courseDescription = document.createElement('p');
-            courseDescription.textContent = course.description;
-            courseItem.appendChild(courseDescription);
-        }
-        courseItem.classList.add('course-item');
-        courseItem.addEventListener('click', () => {
-            loadModules(course.id);
-        });
-        courseContainer.appendChild(courseItem);
+        courseItem.innerHTML = '';
+        const button = document.createElement('button');
+        button.innerHTML += '<img src="' + courses.find(c => c.id == courseSelectContainer.value).image_url + '" alt="Course Image">';
+        button.innerHTML += '<p>' + courses.find(c => c.id == courseSelectContainer.value).name + '</p>';
+        courseItem.appendChild(button);
+        const description = document.createElement('p');
+        description.textContent = (courses.find(c => c.id == courseSelectContainer.value).description == null ? 'No description' : courses.find(c => c.id == courseSelectContainer.value).description);
+        courseItem.appendChild(description);
+        renderUnits(courseSelectContainer.value);
     });
 }
 
-async function fetchModules(courseId) {
-    const {data, error} = await window.supabaseClient.from('modules').select('*').eq('course_id', courseId);
+async function fetchUnits(courseId) {
+    const {data, error} = await window.supabaseClient.from('units').select('*').eq('course_id', courseId);
     if (error) {
         console.error(error);
         return [];
@@ -131,85 +137,30 @@ async function fetchModules(courseId) {
     }
 }
 
-async function renderModules(courseId) {
-    const modules = await fetchModules(courseId);
-    const moduleContainer = document.getElementById('module-container');
-    moduleContainer.innerHTML = '';
-    modules.forEach(module => {
-        const moduleItem = document.createElement('div');
-        if(module.name) {
-            const moduleTitle = document.createElement('h5');
-            moduleTitle.textContent = module.name;
-            moduleItem.appendChild(moduleTitle);
-        }
-        if(module.description) {
-            const moduleDescription = document.createElement('p');
-            moduleDescription.textContent = module.description;
-            moduleItem.appendChild(moduleDescription);
-        }
-        moduleItem.classList.add('module-item');
-        moduleItem.addEventListener('click', () => {
-            loadLessons(module.id);
-        });
-        moduleContainer.appendChild(moduleItem);
+async function renderUnits(courseId) {
+    const units = await fetchUnits(courseId);
+    const unitContainer = document.getElementById('unit-container');
+    unitContainer.style.display = 'block';
+    const unitSelectContainer = document.getElementById('unit-select');
+    unitSelectContainer.innerHTML = '<option>Select Unit</option>';
+    units.forEach(unit => {
+        if(!unit.is_active) return;
+        const option = document.createElement('option');
+        option.value = unit.id;
+        option.textContent = 'Lesson ' + (unit.sort_order + 1) + ' - ' + unit.name;
+        unitSelectContainer.appendChild(option);
     });
-}
-
-async function fetchLessons(moduleId) {
-    const {data, error} = await window.supabaseClient.from('lessons').select('*').eq('module_id', moduleId);
-    if (error) {
-        console.error(error);
-        return [];
-    } else {
-        console.log(data);
-        return data;
-    }
-}
-
-async function renderLessons(moduleId) {
-    const lessons = await fetchLessons(moduleId);
-    const lessonContainer = document.getElementById('lesson-container');
-    lessonContainer.innerHTML = '';
-    lessons.forEach(lesson => {
-        const lessonItem = document.createElement('div');
-        if(lesson.name) {
-            const lessonTitle = document.createElement('h5');
-            lessonTitle.textContent = lesson.name;
-            lessonItem.appendChild(lessonTitle);
-        }
-        if(lesson.description) {
-            const lessonDescription = document.createElement('p');
-            lessonDescription.textContent = lesson.description;
-            lessonItem.appendChild(lessonDescription);
-        }
-        lessonItem.classList.add('lesson-item');
-        lessonItem.addEventListener('click', () => {
-            loadContent(lesson.id);
-        });
-        lessonContainer.appendChild(lessonItem);
-    });
-}
-
-async function fetchContent(lessonId) {
-    const {data, error} = await window.supabaseClient.from('contents').select('*').eq('lesson_id', lessonId);
-    if (error) {
-        console.error(error);
-        return [];
-    } else {
-        console.log(data);
-        return data;
-    }
-}
-
-async function renderContent(lessonId) {
-    const content = await fetchContent(lessonId);
-    const contentContainer = document.getElementById('content-container');
-    contentContainer.innerHTML = '';
-    content.forEach(content => {
-        const contentItem = document.createElement('p');
-        contentItem.classList.add('content-item');
-        contentItem.textContent = content.content;
-        contentContainer.appendChild(contentItem);
+    unitSelectContainer.addEventListener('change', () => {
+        const unitItem = document.getElementById('unit-item');
+        unitItem.style.display = 'block';
+        unitItem.innerHTML = '';
+        const button = document.createElement('button');
+        button.innerHTML += '<p> Lesson ' + (units.find(u => u.id == unitSelectContainer.value).sort_order + 1) + ' - ';
+        button.innerHTML += ' | ' + units.find(u => u.id == unitSelectContainer.value).name + '</p>';
+        unitItem.appendChild(button);
+        const description = document.createElement('p');
+        description.textContent = (units.find(u => u.id == unitSelectContainer.value).description == null ? 'No description' : units.find(u => u.id == unitSelectContainer.value).description);
+        unitItem.appendChild(description);
     });
 }
 
