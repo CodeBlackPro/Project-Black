@@ -28,11 +28,12 @@ async function renderCategories() {
             categoryItem.style.display = 'block';
             categoryItem.innerHTML = '';
             const button = document.createElement('button');
-            button.innerHTML += '<img src="' + categories.find(c => c.id == categorySelectContainer.value).image + '" alt="Category Image">';
+            button.innerHTML += '<img src="' + categories.find(c => c.id == categorySelectContainer.value).image_url + '" alt="Category Image">';
             button.innerHTML += '<p>' + categories.find(c => c.id == categorySelectContainer.value).name + '</p>';
             categoryItem.appendChild(button);
             const description = document.createElement('p');
             description.textContent = (categories.find(c => c.id == categorySelectContainer.value).description == null ? 'No description' : categories.find(c => c.id == categorySelectContainer.value).description);
+            description.textContent += ' | Active Status: ' + (categories.find(c => c.id == categorySelectContainer.value).is_active == null ? 'No active status' : categories.find(c => c.id == categorySelectContainer.value).is_active);
             categoryItem.appendChild(description);
             renderSubjects(categorySelectContainer.value);
         });
