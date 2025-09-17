@@ -1,11 +1,9 @@
 window.supabaseClient = window.supabase.createClient(supabaseUrl, publishKey);
 import { renderSubjects } from "../subjects/subjects.js";
 
-const renderCategories = async () => {
+const renderCategoriesMenu = async () => {
 
-    const { data: categories, error } = await supabaseClient
-        .from('categories')
-        .select('name, img_src') 
+    const categories = await fetchCategories();
     
     const section = document.createElement('section');
     section.className = 'category-section';
@@ -46,6 +44,16 @@ const renderCategories = async () => {
     categorySection.style.display = 'block';
 }
 
+const fetchCategories = async () => {
+
+    const { data: categories, error } = await supabaseClient
+        .from('categories')
+        .select('name, img_src') 
+    
+    return categories;
+}
+
+
 // Category button functionalities
 const categoriesButtonLogic = async (course_name) => {
 
@@ -65,4 +73,4 @@ const categoriesButtonLogic = async (course_name) => {
 }
 
 // Render categories
-document.addEventListener('DOMContentLoaded', function() { renderCategories(); });
+document.addEventListener('DOMContentLoaded', function() { renderCategoriesMenu(); });
