@@ -147,20 +147,48 @@ async function renderUnits(courseId) {
         if(!unit.is_active) return;
         const option = document.createElement('option');
         option.value = unit.id;
-        option.textContent = 'Lesson ' + (unit.sort_order + 1) + ' - ' + unit.name;
+        option.textContent = 'Unit ' + (unit.sort_order + 1) + ' - ' + unit.name;
         unitSelectContainer.appendChild(option);
     });
     unitSelectContainer.addEventListener('change', () => {
         const unitItem = document.getElementById('unit-item');
-        unitItem.style.display = 'block';
+        if(unitItem.style.display != 'block') {
+            unitItem.style.display = 'block';
+        }
         unitItem.innerHTML = '';
         const button = document.createElement('button');
-        button.innerHTML += '<p> Lesson ' + (units.find(u => u.id == unitSelectContainer.value).sort_order + 1) + ' - ';
-        button.innerHTML += ' | ' + units.find(u => u.id == unitSelectContainer.value).name + '</p>';
+        button.innerHTML += '<p>' + units.find(u => u.id == unitSelectContainer.value).name + '</p>';
         unitItem.appendChild(button);
         const description = document.createElement('p');
         description.textContent = (units.find(u => u.id == unitSelectContainer.value).description == null ? 'No description' : units.find(u => u.id == unitSelectContainer.value).description);
         unitItem.appendChild(description);
+        renderLessons(unitSelectContainer.value);
+    });
+}
+
+async function fetchLessons(unitId) {
+    const {data, error} = await window.supabaseClient.from('lessons').select('*').eq('unit_id', unitId);
+    if (error) {
+        console.error(error);
+        return [];
+    } else {
+        console.log(data);
+        return data;
+    }
+}
+
+async function renderLessons(unitId) {
+    const lessons = await fetchLessons(unitId);
+    const lessonContainer = document.getElementById('lesson-container');
+    lessonContainer.style.display = 'block';
+    const lessonSelectContainer = document.getElementById('lesson-select');
+    lessonSelectContainer.innerHTML = '<option>Select Lesson</option>';
+    lessons.forEach(lesson => {
+        if(!lesson.is_active) return;
+        const option = document.createElement('option');
+        option.value = lesson.id;
+        option.textContent = 'Lesson ' + (lesson.sort_order + 1) + ' - ' + lesson.name;
+        lessonSelectContainer.appendChild(option);
     });
 }
 
