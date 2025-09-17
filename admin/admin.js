@@ -36,6 +36,7 @@ async function renderCategories() {
             description.textContent += ' | Active Status: ' + (categories.find(c => c.id == categorySelectContainer.value).is_active == null ? 'No active status' : categories.find(c => c.id == categorySelectContainer.value).is_active);
             categoryItem.appendChild(description);
             renderSubjects(categorySelectContainer.value);
+            initializeAddSubjectButton(categorySelectContainer.value);
         });
     } else {
         categorySelectContainer.innerHTML = '<option>No categories found</option>';
@@ -56,6 +57,7 @@ async function fetchSubjects(categoryId) {
 async function renderSubjects(categoryId) {
     const subjectContainer = document.getElementById('subject-container');
     subjectContainer.style.display = 'block';
+    document.getElementById('subject-category-id').value = categoryId;
     const subjects = await fetchSubjects(categoryId);
     const subjectSelectContainer = document.getElementById('subject-select');
     subjectSelectContainer.innerHTML = '<option>Select Subject</option>';
@@ -262,5 +264,97 @@ async function renderQuestions(contentId) {
         questionItemContainer.appendChild(paragraph3);
     });
 }
+
+const sb = window.supabaseClient;
+
+async function insertCategoryData(table, values) {
+    const { data, error } = await sb.from(table).insert(values).select('*').single();
+    if(error) {
+        throw error;
+    }
+    return data;
+}
+
+(function initializeAddCategoryButton(){
+    const btn = document.getElementById('add-category-btn');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+        try {
+            const payload = {
+                name: document.getElementById('category-name').value.trim(),
+                description: document.getElementById('category-description').value.trim() || null,
+                image_url: document.getElementById('category-image-url').value.trim(),
+                sort_order: parseInt(document.getElementById('category-sort-order').value, 10) || 0,
+                is_active: true
+            };
+            if (!payload.name) return alert('Category name is required');
+            if (!payload.image_url) return alert('Category image is required');
+            if (!payload.sort_order) return alert('Category sort order is required');
+            const row = await insertCategoryData('categories', payload);
+            console.log('Inserted', row);
+            alert('Insert Success');
+            document.getElementById('category-name').value = '';
+            document.getElementById('category-description').value = '';
+            document.getElementById('category-image-url').value = '';
+            document.getElementById('category-sort-order').value = '';
+            document.getElementById('category-select').value = '';
+            document.getElementById('category-item').innerHTML = '';
+            if(row) {
+                renderCategories();
+            } else {
+                alert('Category Re-Render Failed');
+            }
+
+        } catch (e) {
+            console.error(e); alert('Insert Failed');
+        }
+    });
+})();
+
+async function insertSubjectData(table, values) {
+    const { data, error } = await sb.from(table).insert(values).select('*').single();
+    if(error) {
+        throw error;
+    }
+    return data;
+}
+
+function initializeAddSubjectButton(categoryId){
+    const btn = document.getElementById('add-subject-btn');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+        try {
+            const payload = {
+                category_id: document.getElementById('subject-category-id').value.trim(),
+                name: document.getElementById('subject-name').value.trim(),
+                description: document.getElementById('subject-description').value.trim() || null,
+                image_url: document.getElementById('subject-image-url').value.trim(),
+                sort_order: parseInt(document.getElementById('subject-sort-order').value, 10) || 0,
+                is_active: true
+            };
+            if (!payload.name) return alert('Subject name is required');
+            if (!payload.image_url) return alert('Subject image is required');
+            if (!payload.sort_order) return alert('Subject sort order is required');
+            const row = await insertSubjectData('subjects', payload);
+            console.log('Inserted', row);
+            alert('Insert Success');
+            document.getElementById('subject-name').value = '';
+            document.getElementById('subject-description').value = '';
+            document.getElementById('subject-image-url').value = '';
+            document.getElementById('subject-sort-order').value = '';
+            document.getElementById('subject-select').value = '';
+            document.getElementById('subject-item').innerHTML = '';
+            if(row) {
+                renderSubjects(categoryId);
+            } else {
+                alert('Subject Re-Render Failed');
+            }
+        } catch (e) {
+            console.error(e); alert('Insert Failed');
+        }
+    });
+};
+
+
 
 renderCategories();

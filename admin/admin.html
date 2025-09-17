@@ -38,9 +38,10 @@
         </div>
         <div id="subject-container">
             <section>
+                <input type="text" id="subject-category-id" placeholder="Category ID" readonly>
                 <input type="text" id="subject-name" placeholder="Subject Name">
                 <textarea id="subject-description" placeholder="Subject Description"></textarea>
-                <input type="text" id="subject-image" placeholder="Subject Image">
+                <input type="text" id="subject-image-url" placeholder="Subject Image URL">
                 <input type="text" id="subject-sort-order" placeholder="Sort Order">
                 <input type="text" id="subject-status" placeholder="Active Status">
                 <button id="add-subject-btn">Add Subject</button>
@@ -193,7 +194,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./key.js"></script>
     <script src="./admin.js"></script>
-    <script src="./admin-writer.js"></script>
     <script src="../Assets/shooting_star.js"></script>
 </body>
 </html>
