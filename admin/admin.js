@@ -13,8 +13,8 @@ async function fetchCategories() {
 
 async function renderCategories() {
     const categories = await fetchCategories();
-    const categorySelectContainer = document.getElementById('category-select');
-    categorySelectContainer.innerHTML = '<option>Select Category</option>';
+    const categoryItemContainer = document.getElementById('category-item-container');
+    categoryItemContainer.innerHTML = '';
     let sortOrder = -1;
     if(categories.length > 0) {
         categories.forEach(category => {
@@ -22,27 +22,25 @@ async function renderCategories() {
                 sortOrder = category.sort_order + 1;
             }
             if(!category.is_active) return;
-            const option = document.createElement('option');
-            option.value = category.id;
-            option.textContent = category.name + ' | ' + (category.description == null ? 'No description' : category.description);
-            categorySelectContainer.appendChild(option);
+            const btn = document.createElement('button');
+            btn.innerHTML += '<img src="' + category.image_url + '" alt="Category Image">';
+            btn.innerHTML += '<p> name: ' + category.name + '</p>';
+            btn.innerHTML += '<p> description: ' + (category.description == null ? 'No description' : category.description) + '</p>';
+            btn.innerHTML += '<p> sort order: ' + category.sort_order + '</p>';
+            btn.innerHTML += '<p> active status: ' + category.is_active + '</p>';
+            categoryItemContainer.appendChild(btn);
+            btn.addEventListener('click', () => {
+                const categoryItem = document.getElementById('category-item');
+                categoryItem.style.display = 'block';
+                categoryItem.innerHTML = '';
+                const button = document.createElement('button');
+                button.innerHTML += '<img src="' + categories.find(c => c.id == btn.value).image_url + '" alt="Category Image">';
+                button.innerHTML += '<p>' + categories.find(c => c.id == btn.value).name + '</p>';
+                categoryItem.appendChild(button);
+                initializeAddSubjectButton(btn.value);
+            });
         });
         document.getElementById('category-sort-order').value = sortOrder;
-        categorySelectContainer.addEventListener('change', () => {
-            const categoryItem = document.getElementById('category-item');
-            categoryItem.style.display = 'block';
-            categoryItem.innerHTML = '';
-            const button = document.createElement('button');
-            button.innerHTML += '<img src="' + categories.find(c => c.id == categorySelectContainer.value).image_url + '" alt="Category Image">';
-            button.innerHTML += '<p>' + categories.find(c => c.id == categorySelectContainer.value).name + '</p>';
-            categoryItem.appendChild(button);
-            const description = document.createElement('p');
-            description.textContent = (categories.find(c => c.id == categorySelectContainer.value).description == null ? 'No description' : categories.find(c => c.id == categorySelectContainer.value).description);
-            description.textContent += ' | Active Status: ' + (categories.find(c => c.id == categorySelectContainer.value).is_active == null ? 'No active status' : categories.find(c => c.id == categorySelectContainer.value).is_active);
-            categoryItem.appendChild(description);
-            renderSubjects(categorySelectContainer.value);
-            initializeAddSubjectButton(categorySelectContainer.value);
-        });
     } else {
         categorySelectContainer.innerHTML = '<option>No categories found</option>';
     }
