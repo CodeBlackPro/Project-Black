@@ -15,14 +15,19 @@ async function renderCategories() {
     const categories = await fetchCategories();
     const categorySelectContainer = document.getElementById('category-select');
     categorySelectContainer.innerHTML = '<option>Select Category</option>';
+    let sortOrder = -1;
     if(categories.length > 0) {
         categories.forEach(category => {
+            if(category.sort_order >= sortOrder) {
+                sortOrder = category.sort_order + 1;
+            }
             if(!category.is_active) return;
             const option = document.createElement('option');
             option.value = category.id;
             option.textContent = category.name + ' | ' + (category.description == null ? 'No description' : category.description);
             categorySelectContainer.appendChild(option);
         });
+        document.getElementById('category-sort-order').value = sortOrder;
         categorySelectContainer.addEventListener('change', () => {
             const categoryItem = document.getElementById('category-item');
             categoryItem.style.display = 'block';
