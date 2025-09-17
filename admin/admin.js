@@ -190,6 +190,77 @@ async function renderLessons(unitId) {
         option.textContent = 'Lesson ' + (lesson.sort_order + 1) + ' - ' + lesson.name;
         lessonSelectContainer.appendChild(option);
     });
+    lessonSelectContainer.addEventListener('change', () => {
+        const lessonItem = document.getElementById('lesson-item');
+        lessonItem.style.display = 'block';
+        lessonItem.innerHTML = '';
+        const button = document.createElement('button');
+        button.innerHTML += '<p>' + lessons.find(l => l.id == lessonSelectContainer.value).name + '</p>';
+        lessonItem.appendChild(button);
+        renderContents(lessonSelectContainer.value);
+    });
+}
+
+async function fetchContents(lessonId) {
+    const {data, error} = await window.supabaseClient.from('contents').select('*').eq('lesson_id', lessonId);
+    if (error) {
+        console.error("Error fetching content: ", error);
+        return [];
+    } else {
+        console.log(data);
+        return data;
+    }
+}
+
+async function renderContents(lessonId) {
+    const content = await fetchContents(lessonId);
+    const contentContainer = document.getElementById('content-container');
+    contentContainer.style.display = 'block';
+    const contentItemContainer = document.getElementById('content-item-container');
+    contentItemContainer.innerHTML = '';
+    const contentId = content[0].id;
+    content.forEach(content => {
+        if(!content.is_active) return;
+        const paragraph = document.createElement('p');
+        paragraph.textContent = content.name;
+        contentItemContainer.appendChild(paragraph);
+    });
+    if(contentId) {
+        renderQuestions(contentId);
+    } else {
+        console.log('No content found', contentId);
+    }
+}
+
+async function fetchQuestions(contentId) {
+    const {data, error} = await window.supabaseClient.from('questions').select('*').eq('content_id', contentId);
+    if (error) {
+        console.error("Error fetching questions: ", error);
+        return [];
+    } else {
+        console.log(data);
+        return data;
+    }
+}
+
+async function renderQuestions(contentId) {
+    const questions = await fetchQuestions(contentId);
+    const questionContainer = document.getElementById('question-container');
+    questionContainer.style.display = 'block';
+    const questionItemContainer = document.getElementById('question-list');
+    questionItemContainer.innerHTML = '';
+    questions.forEach(question => {
+        if(!question.is_active) return;
+        const paragraph = document.createElement('p');
+        paragraph.textContent = 'Question ' + (question.sort_order + 1) + ': ' + question.prompt;
+        questionItemContainer.appendChild(paragraph);
+        const paragraph2 = document.createElement('p');
+        paragraph2.textContent = 'Tokens: ' + question.tokens;
+        questionItemContainer.appendChild(paragraph2);
+        const paragraph3 = document.createElement('p');
+        paragraph3.textContent = 'Answer: ' + question.answer;
+        questionItemContainer.appendChild(paragraph3);
+    });
 }
 
 renderCategories();

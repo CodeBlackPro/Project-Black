@@ -24,11 +24,18 @@
     height: 100px;
 }
 
-.title {
+#title {
     color: rgb(95,145,255);
     font-size: 3rem;
     font-weight: 900;
     font-family: 'Poppins', sans-serif;
+}
+
+#title span {
+    font-size: 1.5rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+    color: rgb(102, 102, 102);
 }
 
 .signup-btn {
