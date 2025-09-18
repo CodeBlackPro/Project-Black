@@ -28,21 +28,17 @@ async function renderCategories() {
             btn.innerHTML += '<p> description: ' + (category.description == null ? 'No description' : category.description) + '</p>';
             btn.innerHTML += '<p> sort order: ' + category.sort_order + '</p>';
             btn.innerHTML += '<p> active status: ' + category.is_active + '</p>';
+            btn.innerHTML += '<p> created at: ' + formatDate(category.created_at) + '</p>';
+            btn.innerHTML += '<p> updated at: ' + formatDate(category.updated_at) + '</p>';
             categoryItemContainer.appendChild(btn);
             btn.addEventListener('click', () => {
-                const categoryItem = document.getElementById('category-item');
-                categoryItem.style.display = 'block';
-                categoryItem.innerHTML = '';
-                const button = document.createElement('button');
-                button.innerHTML += '<img src="' + categories.find(c => c.id == btn.value).image_url + '" alt="Category Image">';
-                button.innerHTML += '<p>' + categories.find(c => c.id == btn.value).name + '</p>';
-                categoryItem.appendChild(button);
-                initializeAddSubjectButton(btn.value);
+                //show subjects within category
+                renderSubjects(category.id);
             });
         });
         document.getElementById('category-sort-order').value = sortOrder;
     } else {
-        categorySelectContainer.innerHTML = '<option>No categories found</option>';
+        categoryItemContainer.innerHTML = '<p>No categories found</p>';
     }
 }
 
@@ -63,36 +59,31 @@ async function renderSubjects(categoryId) {
     document.getElementById('subject-category-id').value = categoryId;
     let sortOrder = -1;
     const subjects = await fetchSubjects(categoryId);
-    const subjectSelectContainer = document.getElementById('subject-select');
-    subjectSelectContainer.innerHTML = '<option>Select Subject</option>';
+    const subjectItemContainer = document.getElementById('subject-item-container');
+    subjectItemContainer.innerHTML = '';
     if(subjects.length > 0) {
         subjects.forEach(subject => {
             if(subject.sort_order >= sortOrder) {
                 sortOrder = subject.sort_order + 1;
             }
             if(!subject.is_active) return;
-            const option = document.createElement('option');
-            option.value = subject.id;
-            option.textContent = subject.name;
-            subjectSelectContainer.appendChild(option);
+            const btn = document.createElement('button');
+            btn.innerHTML += '<img src="' + subject.image_url + '" alt="Subject Image">';
+            btn.innerHTML += '<p> name: ' + subject.name + '</p>';
+            btn.innerHTML += '<p> description: ' + (subject.description == null ? 'No description' : subject.description) + '</p>';
+            btn.innerHTML += '<p> sort order: ' + subject.sort_order + '</p>';
+            btn.innerHTML += '<p> active status: ' + subject.is_active + '</p>';
+            btn.innerHTML += '<p> created at: ' + formatDate(subject.created_at) + '</p>';
+            btn.innerHTML += '<p> updated at: ' + formatDate(subject.updated_at) + '</p>';
+            subjectItemContainer.appendChild(btn);
+            btn.addEventListener('click', () => {
+                //show courses within subject
+                renderCourses(subject.id);
+            });
         });
         document.getElementById('subject-sort-order').value = sortOrder;
-        subjectSelectContainer.addEventListener('change', () => {
-            const subjectItem = document.getElementById('subject-item');
-            subjectItem.style.display = 'block';
-            subjectItem.innerHTML = '';
-            const button = document.createElement('button');
-            button.innerHTML += '<img src="' + subjects.find(s => s.id == subjectSelectContainer.value).image_url + '" alt="Subject Image">';
-            button.innerHTML += '<p>' + subjects.find(s => s.id == subjectSelectContainer.value).name + '</p>';
-            subjectItem.appendChild(button);
-            const description = document.createElement('p');
-            description.textContent = (subjects.find(s => s.id == subjectSelectContainer.value).description == null ? 'No description' : subjects.find(s => s.id == subjectSelectContainer.value).description);
-            description.textContent += ' | Active Status: ' + (subjects.find(s => s.id == subjectSelectContainer.value).is_active == null ? 'No active status' : subjects.find(s => s.id == subjectSelectContainer.value).is_active);
-            subjectItem.appendChild(description);
-            renderCourses(subjectSelectContainer.value);
-        });
     } else {
-        subjectSelectContainer.innerHTML = '<option>No subjects found</option>';
+        subjectItemContainer.innerHTML = '<p>No subjects found</p>';
     }
 }
 
@@ -108,33 +99,48 @@ async function fetchCourses(subjectId) {
 }
 
 async function renderCourses(subjectId) {
-    const courses = await fetchCourses(subjectId);
     const courseContainer = document.getElementById('course-container');
     courseContainer.style.display = 'block';
-    const courseSelectContainer = document.getElementById('course-select');
-    courseSelectContainer.innerHTML = '<option>Select Course</option>';
-    courses.forEach(course => {
-        if(!course.is_active) return;
-        const option = document.createElement('option');
-        option.value = course.id;
-        option.textContent = course.name;
-        courseSelectContainer.appendChild(option);
-    });
-    courseSelectContainer.addEventListener('change', () => {
-        const courseItem = document.getElementById('course-item');
-        if(courseItem.style.display != 'block') {
-            courseItem.style.display = 'block';
-        }
-        courseItem.innerHTML = '';
-        const button = document.createElement('button');
-        button.innerHTML += '<img src="' + courses.find(c => c.id == courseSelectContainer.value).image_url + '" alt="Course Image">';
-        button.innerHTML += '<p>' + courses.find(c => c.id == courseSelectContainer.value).name + '</p>';
-        courseItem.appendChild(button);
-        const description = document.createElement('p');
-        description.textContent = (courses.find(c => c.id == courseSelectContainer.value).description == null ? 'No description' : courses.find(c => c.id == courseSelectContainer.value).description);
-        courseItem.appendChild(description);
-        renderUnits(courseSelectContainer.value);
-    });
+    document.getElementById('course-subject-id').value = subjectId;
+    let sortOrder = -1;
+    const courses = await fetchCourses(subjectId);
+    const courseItemContainer = document.getElementById('course-item-container');
+    courseItemContainer.innerHTML = '';
+    if(courses.length > 0) {
+        courses.forEach(course => {
+            if(course.sort_order >= sortOrder) {
+                sortOrder = course.sort_order + 1;
+            }
+            if(!course.is_active) return;
+            const btn = document.createElement('button');
+            btn.innerHTML += '<img src="' + course.image_url + '" alt="Course Image">';
+            btn.innerHTML += '<p> name: ' + course.name + '</p>';
+            btn.innerHTML += '<p> description: ' + (course.description == null ? 'No description' : course.description) + '</p>';
+            btn.innerHTML += '<p> sort order: ' + course.sort_order + '</p>';
+            btn.innerHTML += '<p> active status: ' + course.is_active + '</p>';
+            btn.innerHTML += '<p> created at: ' + formatDate(course.created_at) + '</p>';
+            btn.innerHTML += '<p> updated at: ' + formatDate(course.updated_at) + '</p>';
+            courseItemContainer.appendChild(btn);
+            btn.addEventListener('click', () => {
+                //show units within course
+                renderUnits(course.id);
+            });
+        });
+        document.getElementById('course-sort-order').value = sortOrder;
+    } else {
+        courseItemContainer.innerHTML = '<p>No courses found</p>';
+    }
+}
+
+async function fetchUnits(courseId) {
+    const {data, error} = await window.supabaseClient.from('units').select('*').eq('course_id', courseId);
+    if (error) {
+        console.error(error);
+        return [];
+    } else {
+        console.log(data);
+        return data;
+    }
 }
 
 async function fetchUnits(courseId) {
@@ -364,6 +370,17 @@ function initializeAddSubjectButton(categoryId){
     });
 };
 
-
+function formatDate(date) {
+    const d = new Date(date);
+    if (Number.isNaN(d.getTime())) return 'Invalid Date';
+    return new Intl.DateTimeFormat(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+    }).format(d);
+}
 
 renderCategories();
