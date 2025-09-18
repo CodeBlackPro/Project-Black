@@ -298,10 +298,6 @@ async function renderQuestions(contentId) {
             btn.innerHTML += '<p> created at: ' + formatDate(question.created_at) + '</p>';
             btn.innerHTML += '<p> updated at: ' + formatDate(question.updated_at) + '</p>';
             questionItemContainer.appendChild(btn);
-            btn.addEventListener('click', () => {
-                //show contents within question
-                renderContents(question.id);
-            });
         });
         document.getElementById('question-sort-order').value = sortOrder;
     } else {
