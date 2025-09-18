@@ -47,7 +47,6 @@
                 <textarea id="course-description" placeholder="Course Description"></textarea>
                 <input type="text" id="course-image" placeholder="Course Image">
                 <input type="text" id="course-sort-order" placeholder="Sort Order">
-                <input type="text" id="course-status" placeholder="Active Status">
                 <button id="add-course-btn">Add Course</button>
             </section>
             <section>
@@ -59,46 +58,35 @@
         </div>
         <div id="unit-container">
             <section>
+                <input type="text" id="unit-course-id" placeholder="Related Course ID" readonly>
                 <input type="text" id="unit-name" placeholder="Unit Name">
                 <textarea id="unit-description" placeholder="Unit Description"></textarea>
                 <input type="text" id="unit-image" placeholder="Unit Image">
                 <input type="text" id="unit-sort-order" placeholder="Sort Order">
-                <input type="text" id="unit-status" placeholder="Active Status">
-                <button id="add-course-btn">Add Course</button>
+                <button id="add-unit-btn">Add Unit</button>
             </section>
             <section>
-                <select id="unit-select">
-                    <option>Select Unit</option>
-                    <option>Unit 1</option>
-                    <option>Unit 2</option>
-                    <option>Unit 3</option>
-                    <option>Unit 4</option>
-                    <option>Unit 5</option>
-                    <option>Unit 6</option>
-                    <option>Unit 7</option>
-                </select>
-                <div id="unit-item">
-                    <button><img src="#" alt="Unit Image"><p>Unit Name</p></button>
-                    <p>Description | Sort Order | Active Status</p>
+                <div id="unit-item-container">
+                    <button><img src="#" alt="Unit Image"><p>Unit Name</p><p>Description | Sort Order | Active Status</p></button>
                 </div>
             </section>
         </div>
         <div id="lesson-container">
             <section>
+                <input type="text" id="lesson-unit-id" placeholder="Related Unit ID" readonly>
                 <input type="text" id="lesson-name" placeholder="Lesson Name">
                 <textarea id="lesson-description" placeholder="Lesson Description"></textarea>
                 <input type="text" id="lesson-image" placeholder="Lesson Image">
                 <input type="text" id="lesson-sort-order" placeholder="Sort Order">
-                <input type="text" id="lesson-status" placeholder="Active Status">
                 <button id="add-lesson-btn">Add Lesson</button>
             </section>
             <section>
-                <select id="lesson-select">
-                    <option>Select Lesson</option>
-                    <option>Lesson 1</option>
-                    <option>Lesson 2</option>
-                    <option>Lesson 3</option>
-                </select>
+                <div id="lesson-item-container">
+                    <button><img src="#" alt="Lesson Image"><p>Lesson Name</p>
+                    <p>Description | Sort Order | Active Status</p>
+                    </button>
+                </div>
+            </section>
                 <div id="lesson-item">
                     <button><img src="#" alt="Lesson Image"><p>Lesson Name</p></button>
                     <p>Description | Sort Order | Active Status</p>

@@ -143,44 +143,37 @@ async function fetchUnits(courseId) {
     }
 }
 
-async function fetchUnits(courseId) {
-    const {data, error} = await window.supabaseClient.from('units').select('*').eq('course_id', courseId);
-    if (error) {
-        console.error(error);
-        return [];
-    } else {
-        console.log(data);
-        return data;
-    }
-}
-
 async function renderUnits(courseId) {
-    const units = await fetchUnits(courseId);
     const unitContainer = document.getElementById('unit-container');
     unitContainer.style.display = 'block';
-    const unitSelectContainer = document.getElementById('unit-select');
-    unitSelectContainer.innerHTML = '<option>Select Unit</option>';
-    units.forEach(unit => {
-        if(!unit.is_active) return;
-        const option = document.createElement('option');
-        option.value = unit.id;
-        option.textContent = 'Unit ' + (unit.sort_order + 1) + ' - ' + unit.name;
-        unitSelectContainer.appendChild(option);
-    });
-    unitSelectContainer.addEventListener('change', () => {
-        const unitItem = document.getElementById('unit-item');
-        if(unitItem.style.display != 'block') {
-            unitItem.style.display = 'block';
-        }
-        unitItem.innerHTML = '';
-        const button = document.createElement('button');
-        button.innerHTML += '<p>' + units.find(u => u.id == unitSelectContainer.value).name + '</p>';
-        unitItem.appendChild(button);
-        const description = document.createElement('p');
-        description.textContent = (units.find(u => u.id == unitSelectContainer.value).description == null ? 'No description' : units.find(u => u.id == unitSelectContainer.value).description);
-        unitItem.appendChild(description);
-        renderLessons(unitSelectContainer.value);
-    });
+    document.getElementById('unit-course-id').value = courseId;
+    let sortOrder = -1;
+    const units = await fetchUnits(courseId);
+    const unitItemContainer = document.getElementById('unit-item-container');
+    unitItemContainer.innerHTML = '';
+    if(units.length > 0) {
+        units.forEach(unit => {
+            if(unit.sort_order >= sortOrder) {
+                sortOrder = unit.sort_order + 1;
+            }
+            if(!unit.is_active) return;
+            const btn = document.createElement('button');
+            btn.innerHTML += '<p> name: ' + unit.name + '</p>';
+            btn.innerHTML += '<p> description: ' + (unit.description == null ? 'No description' : unit.description) + '</p>';
+            btn.innerHTML += '<p> sort order: ' + unit.sort_order + '</p>';
+            btn.innerHTML += '<p> active status: ' + unit.is_active + '</p>';
+            btn.innerHTML += '<p> created at: ' + formatDate(unit.created_at) + '</p>';
+            btn.innerHTML += '<p> updated at: ' + formatDate(unit.updated_at) + '</p>';
+            unitItemContainer.appendChild(btn);
+            btn.addEventListener('click', () => {
+                //show lessons within unit
+                renderLessons(unit.id);
+            });
+        });
+        document.getElementById('unit-sort-order').value = sortOrder;
+    } else {
+        unitItemContainer.innerHTML = '<p>No units found</p>';
+    }
 }
 
 async function fetchLessons(unitId) {
