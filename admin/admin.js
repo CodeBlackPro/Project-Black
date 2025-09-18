@@ -486,6 +486,52 @@ function initializeAddUnitButton(courseId){
     });
 };
 
+///insert lesson data
+async function insertLessonData(table, values) {
+    const { data, error } = await sb.from(table).insert(values).select('*').single();
+    if(error) {
+        throw error;
+    }
+    return data;
+}
+
+
+function initializeAddLessonButton(unitId){
+    const btn = document.getElementById('add-lesson-btn');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+        try {
+            const payload = {
+                unit_id: document.getElementById('unit-unit-id').value.trim(),
+                name: document.getElementById('lesson-name').value.trim(),
+                description: document.getElementById('lesson-description').value.trim() || null,
+                image_url: document.getElementById('lesson-image-url').value.trim(),
+                sort_order: parseInt(document.getElementById('lesson-sort-order').value, 10) || 0,
+                is_active: true
+            };
+            if (!payload.name) return alert('Lesson name is required');
+            if (!payload.image_url) return alert('Lesson image is required');
+            if (!payload.sort_order) return alert('Lesson sort order is required');
+            const row = await insertLessonData('lessons', payload);
+            console.log('Inserted', row);
+            alert('Insert Success');
+            document.getElementById('lesson-name').value = '';
+            document.getElementById('lesson-description').value = '';
+            document.getElementById('lesson-image-url').value = '';
+            document.getElementById('lesson-sort-order').value = '';
+            document.getElementById('lesson-select').value = '';
+            document.getElementById('lesson-item').innerHTML = '';
+            if(row) {
+                renderLessons(unitId);
+            } else {
+                alert('Lesson Re-Render Failed');
+            }
+        } catch (e) {
+            console.error(e); alert('Insert Failed');
+        }
+    });
+};
+
 function formatDate(date) {
     const d = new Date(date);
     if (Number.isNaN(d.getTime())) return 'Invalid Date';
