@@ -34,6 +34,7 @@ async function renderCategories() {
             btn.addEventListener('click', () => {
                 //show subjects within category
                 renderSubjects(category.id);
+                initializeAddSubjectButton(category.id);
             });
         });
         document.getElementById('category-sort-order').value = sortOrder;
@@ -170,6 +171,7 @@ async function renderUnits(courseId) {
             btn.addEventListener('click', () => {
                 //show lessons within unit
                 renderLessons(unit.id);
+                initializeAddLessonButton(unit.id);
             });
         });
         document.getElementById('unit-sort-order').value = sortOrder;
@@ -214,6 +216,7 @@ async function renderLessons(unitId) {
             btn.addEventListener('click', () => {
                 //show contents within lesson
                 renderContents(lesson.id);
+                initializeAddContentButton(lesson.id);
             });
         });
         document.getElementById('lesson-sort-order').value = sortOrder;
@@ -258,6 +261,7 @@ async function renderContents(lessonId) {
             btn.addEventListener('click', () => {
                 //show questions within content
                 renderQuestions(content.id);
+                initializeAddQuestionButton(content.id);
             });
         });
         document.getElementById('content-sort-order').value = sortOrder;
@@ -339,8 +343,6 @@ async function insertCategoryData(table, values) {
             document.getElementById('category-description').value = '';
             document.getElementById('category-image-url').value = '';
             document.getElementById('category-sort-order').value = '';
-            document.getElementById('category-select').value = '';
-            document.getElementById('category-item').innerHTML = '';
             if(row) {
                 renderCategories();
             } else {
@@ -384,8 +386,6 @@ function initializeAddSubjectButton(categoryId){
             document.getElementById('subject-description').value = '';
             document.getElementById('subject-image-url').value = '';
             document.getElementById('subject-sort-order').value = '';
-            document.getElementById('subject-select').value = '';
-            document.getElementById('subject-item').innerHTML = '';
             if(row) {
                 renderSubjects(categoryId);
             } else {
@@ -473,8 +473,6 @@ function initializeAddUnitButton(courseId){
             document.getElementById('unit-description').value = '';
             document.getElementById('unit-image-url').value = '';
             document.getElementById('unit-sort-order').value = '';
-            document.getElementById('unit-select').value = '';
-            document.getElementById('unit-item').innerHTML = '';
             if(row) {
                 renderUnits(courseId);
             } else {
@@ -502,10 +500,10 @@ function initializeAddLessonButton(unitId){
     btn.addEventListener('click', async () => {
         try {
             const payload = {
-                unit_id: document.getElementById('unit-unit-id').value.trim(),
+                unit_id: document.getElementById('lesson-unit-id').value.trim(),
                 name: document.getElementById('lesson-name').value.trim(),
                 description: document.getElementById('lesson-description').value.trim() || null,
-                image_url: document.getElementById('lesson-image-url').value.trim(),
+                image_url: document.getElementById('lesson-image-url').value.trim() || null,
                 sort_order: parseInt(document.getElementById('lesson-sort-order').value, 10) || 0,
                 is_active: true
             };
@@ -519,8 +517,6 @@ function initializeAddLessonButton(unitId){
             document.getElementById('lesson-description').value = '';
             document.getElementById('lesson-image-url').value = '';
             document.getElementById('lesson-sort-order').value = '';
-            document.getElementById('lesson-select').value = '';
-            document.getElementById('lesson-item').innerHTML = '';
             if(row) {
                 renderLessons(unitId);
             } else {
@@ -531,6 +527,47 @@ function initializeAddLessonButton(unitId){
         }
     });
 };
+
+//insert content data
+async function insertContentData(table, values) {
+    const { data, error } = await sb.from(table).insert(values).select('*').single();
+    if(error) {
+        throw error;   
+    }
+    return data;
+}
+
+function initializeAddContentButton(lessonId) {
+    const btn = document.getElementById('add-content-btn');
+    if(!btn) return;
+    btn.addEventListener('click', async () => {
+        try {
+            const payload = {
+                lesson_id: document.getElementById('content-lesson-id').value.trim(),
+                markdown_content: document.getElementById('content-markdown-content').value.trim(),
+                description: document.getElementById('content-description').value.trim() || null,
+                sort_order: parseInt(document.getElementById('content-sort-order').value, 10) || 0,
+                is_active: true
+            };
+            if (!payload.markdown_content) return alert('Content markdown content is required');
+            if (!payload.sort_order) return alert('Content sort order is required');
+            const row = await insertContentData('contents', payload);
+            console.log('Inserted', row);
+            alert('Insert Success');
+            document.getElementById('content-markdown-content').value = '';
+            document.getElementById('content-description').value = '';
+            document.getElementById('content-image-url').value = '';
+            document.getElementById('content-sort-order').value = '';
+            if(row) {
+                renderContents(lessonId);
+            } else {
+                alert('Content Re-Render Failed');
+            }
+        } catch (e) {
+            console.error(e); alert('Insert Failed');
+        }
+    });
+}
 
 function formatDate(date) {
     const d = new Date(date);
