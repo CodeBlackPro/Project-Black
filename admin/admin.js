@@ -188,27 +188,36 @@ async function fetchLessons(unitId) {
 }
 
 async function renderLessons(unitId) {
-    const lessons = await fetchLessons(unitId);
     const lessonContainer = document.getElementById('lesson-container');
     lessonContainer.style.display = 'block';
-    const lessonSelectContainer = document.getElementById('lesson-select');
-    lessonSelectContainer.innerHTML = '<option>Select Lesson</option>';
-    lessons.forEach(lesson => {
-        if(!lesson.is_active) return;
-        const option = document.createElement('option');
-        option.value = lesson.id;
-        option.textContent = 'Lesson ' + (lesson.sort_order + 1) + ' - ' + lesson.name;
-        lessonSelectContainer.appendChild(option);
-    });
-    lessonSelectContainer.addEventListener('change', () => {
-        const lessonItem = document.getElementById('lesson-item');
-        lessonItem.style.display = 'block';
-        lessonItem.innerHTML = '';
-        const button = document.createElement('button');
-        button.innerHTML += '<p>' + lessons.find(l => l.id == lessonSelectContainer.value).name + '</p>';
-        lessonItem.appendChild(button);
-        renderContents(lessonSelectContainer.value);
-    });
+    document.getElementById('lesson-unit-id').value = unitId;
+    let sortOrder = -1;
+    const lessons = await fetchLessons(unitId);
+    const lessonItemContainer = document.getElementById('lesson-item-container');
+    lessonItemContainer.innerHTML = '';
+    if(lessons.length > 0) {
+        lessons.forEach(lesson => {
+            if(lesson.sort_order >= sortOrder) {
+                sortOrder = lesson.sort_order + 1;
+            }
+            if(!lesson.is_active) return;
+            const btn = document.createElement('button');
+            btn.innerHTML += '<p> name: ' + lesson.name + '</p>';
+            btn.innerHTML += '<p> description: ' + (lesson.description == null ? 'No description' : lesson.description) + '</p>';
+            btn.innerHTML += '<p> sort order: ' + lesson.sort_order + '</p>';
+            btn.innerHTML += '<p> active status: ' + lesson.is_active + '</p>';
+            btn.innerHTML += '<p> created at: ' + formatDate(lesson.created_at) + '</p>';
+            btn.innerHTML += '<p> updated at: ' + formatDate(lesson.updated_at) + '</p>';
+            lessonItemContainer.appendChild(btn);
+            btn.addEventListener('click', () => {
+                //show contents within lesson
+                renderContents(lesson.id);
+            });
+        });
+        document.getElementById('lesson-sort-order').value = sortOrder;
+    } else {
+        lessonItemContainer.innerHTML = '<p>No lessons found</p>';
+    }
 }
 
 async function fetchContents(lessonId) {
