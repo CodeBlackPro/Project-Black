@@ -95,6 +95,7 @@
         </div>
         <div id="content-container">
             <section>
+                <input type="text" id="content-lesson-id" placeholder="Related Lesson ID" readonly>
                 <input type="text" id="content-name" placeholder="Content Name">
                 <textarea id="content-description" placeholder="Content Description"></textarea>
                 <input type="text" id="content-image" placeholder="Content Image">
@@ -104,47 +105,28 @@
             </section>
             <section>
                 <div id="content-item-container">
-                    <p>Content Mark Down</p>
+                    <button><img src="#" alt="Content Image"><p>Content Name</p>
+                    <p>Description | Sort Order | Active Status</p>
+                    </button>
                 </div>
             </section>
         </div>
         <div id="question-container">
             <section>
+                <input type="text" id="question-content-id" placeholder="Related Content ID" readonly>
                 <input type="text" id="question-prompt" placeholder="Question Prompt">
                 <input type="text" id="question-tokens" placeholder="Question Tokens separated by commas">
                 <input type="text" id="question-answer" placeholder="Question Answer">
+                <input type="text" id="question-sort-order" placeholder="Sort Order">
                 <button id="add-question-btn">Add Question</button>
             </section>
-            <div id="question-list">
-                <div class="question-item">
-                    <p>Question 1</p>
-                    <section>
-                        <button>Token 1</button>
-                        <button>Token 2</button>
-                        <button>Token 3</button>
-                        <button>Token 4</button>
-                        <button>Token 5</button>
-                        <button>Token 6</button>
-                        <button>Token 7</button>
-                        <button>Token 8</button>
-                    </section>
-                    <p>Question Answer</p>
+            <section>
+                <div id="question-item-container">
+                    <button><img src="#" alt="Question Image"><p>Question Prompt</p>
+                    <p>Tokens | Answer | Sort Order | Active Status</p>
+                    </button>
                 </div>
-                <div class="question-item">
-                    <p>Question 2</p>
-                    <section>
-                        <button>Token 1</button>
-                        <button>Token 2</button>
-                        <button>Token 3</button>
-                        <button>Token 4</button>
-                        <button>Token 5</button>
-                        <button>Token 6</button>
-                        <button>Token 7</button>
-                        <button>Token 8</button>
-                    </section>
-                    <p>Question Answer</p>
-                </div>
-            </div>
+            </section>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

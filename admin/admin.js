@@ -232,22 +232,35 @@ async function fetchContents(lessonId) {
 }
 
 async function renderContents(lessonId) {
-    const content = await fetchContents(lessonId);
     const contentContainer = document.getElementById('content-container');
     contentContainer.style.display = 'block';
+    document.getElementById('content-lesson-id').value = lessonId;
+    let sortOrder = -1;
+    const contents = await fetchContents(lessonId);
     const contentItemContainer = document.getElementById('content-item-container');
     contentItemContainer.innerHTML = '';
-    const contentId = content[0].id;
-    content.forEach(content => {
-        if(!content.is_active) return;
-        const paragraph = document.createElement('p');
-        paragraph.textContent = content.name;
-        contentItemContainer.appendChild(paragraph);
-    });
-    if(contentId) {
-        renderQuestions(contentId);
+    if(contents.length > 0) {
+        contents.forEach(content => {
+            if(content.sort_order >= sortOrder) {
+                sortOrder = content.sort_order + 1;
+            }
+            if(!content.is_active) return;
+            const btn = document.createElement('button');
+            btn.innerHTML += '<p style="text-align: left;"> markdown content: ' + content.markdown_content + '</p><br>';
+            btn.innerHTML += '<p> description: ' + (content.description == null ? 'No description' : content.description) + '</p>';
+            btn.innerHTML += '<p> sort order: ' + content.sort_order + '</p>';
+            btn.innerHTML += '<p> active status: ' + content.is_active + '</p>';
+            btn.innerHTML += '<p> created at: ' + formatDate(content.created_at) + '</p>';
+            btn.innerHTML += '<p> updated at: ' + formatDate(content.updated_at) + '</p>';
+            contentItemContainer.appendChild(btn);
+            btn.addEventListener('click', () => {
+                //show questions within content
+                renderQuestions(content.id);
+            });
+        });
+        document.getElementById('content-sort-order').value = sortOrder;
     } else {
-        console.log('No content found', contentId);
+        contentItemContainer.innerHTML = '<p>No contents found</p>';
     }
 }
 
@@ -263,23 +276,37 @@ async function fetchQuestions(contentId) {
 }
 
 async function renderQuestions(contentId) {
-    const questions = await fetchQuestions(contentId);
     const questionContainer = document.getElementById('question-container');
     questionContainer.style.display = 'block';
-    const questionItemContainer = document.getElementById('question-list');
+    document.getElementById('question-content-id').value = contentId;
+    let sortOrder = -1;
+    const questions = await fetchQuestions(contentId);
+    const questionItemContainer = document.getElementById('question-item-container');
     questionItemContainer.innerHTML = '';
-    questions.forEach(question => {
-        if(!question.is_active) return;
-        const paragraph = document.createElement('p');
-        paragraph.textContent = 'Question ' + (question.sort_order + 1) + ': ' + question.prompt;
-        questionItemContainer.appendChild(paragraph);
-        const paragraph2 = document.createElement('p');
-        paragraph2.textContent = 'Tokens: ' + question.tokens;
-        questionItemContainer.appendChild(paragraph2);
-        const paragraph3 = document.createElement('p');
-        paragraph3.textContent = 'Answer: ' + question.answer;
-        questionItemContainer.appendChild(paragraph3);
-    });
+    if(questions.length > 0) {
+        questions.forEach(question => {
+            if(question.sort_order >= sortOrder) {
+                sortOrder = question.sort_order + 1;
+            }
+            if(!question.is_active) return;
+            const btn = document.createElement('button');
+            btn.innerHTML += '<p> prompt: ' + question.prompt + '</p>';
+            btn.innerHTML += '<p> tokens: ' + question.tokens + '</p>';
+            btn.innerHTML += '<p> answer: ' + question.answer + '</p>';
+            btn.innerHTML += '<p> sort order: ' + question.sort_order + '</p>';
+            btn.innerHTML += '<p> active status: ' + question.is_active + '</p>';
+            btn.innerHTML += '<p> created at: ' + formatDate(question.created_at) + '</p>';
+            btn.innerHTML += '<p> updated at: ' + formatDate(question.updated_at) + '</p>';
+            questionItemContainer.appendChild(btn);
+            btn.addEventListener('click', () => {
+                //show contents within question
+                renderContents(question.id);
+            });
+        });
+        document.getElementById('question-sort-order').value = sortOrder;
+    } else {
+        questionItemContainer.innerHTML = '<p>No questions found</p>';
+    }
 }
 
 const sb = window.supabaseClient;
