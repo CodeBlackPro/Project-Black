@@ -79,6 +79,7 @@ async function renderSubjects(categoryId) {
             btn.addEventListener('click', () => {
                 //show courses within subject
                 renderCourses(subject.id);
+                initializeAddCourseButton(subject.id);
             });
         });
         document.getElementById('subject-sort-order').value = sortOrder;
@@ -124,6 +125,7 @@ async function renderCourses(subjectId) {
             btn.addEventListener('click', () => {
                 //show units within course
                 renderUnits(course.id);
+                initializeAddUnitButton(course.id);
             });
         });
         document.getElementById('course-sort-order').value = sortOrder;
@@ -388,6 +390,95 @@ function initializeAddSubjectButton(categoryId){
                 renderSubjects(categoryId);
             } else {
                 alert('Subject Re-Render Failed');
+            }
+        } catch (e) {
+            console.error(e); alert('Insert Failed');
+        }
+    });
+};
+
+///insert course data
+async function insertCourseData(table, values) {
+    const { data, error } = await sb.from(table).insert(values).select('*').single();
+    if(error) {
+        throw error;
+    }
+    return data;
+}
+
+function initializeAddCourseButton(subjectId){
+    const btn = document.getElementById('add-course-btn');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+        try {
+            const payload = {
+                subject_id: document.getElementById('course-subject-id').value.trim(),
+                name: document.getElementById('course-name').value.trim(),
+                description: document.getElementById('course-description').value.trim() || null,
+                image_url: document.getElementById('course-image-url').value.trim(),
+                sort_order: parseInt(document.getElementById('course-sort-order').value, 10) || 0,
+                is_active: true
+            };
+            if (!payload.name) return alert('Course name is required');
+            if (!payload.image_url) return alert('Course image is required');
+            if (!payload.sort_order) return alert('Course sort order is required');
+            const row = await insertCourseData('courses', payload);
+            console.log('Inserted', row);
+            alert('Insert Success');
+            document.getElementById('course-name').value = '';
+            document.getElementById('course-description').value = '';
+            document.getElementById('course-image-url').value = '';
+            document.getElementById('course-sort-order').value = '';
+            if(row) {
+                renderCourses(subjectId);
+            } else {
+                alert('Course Re-Render Failed');
+            }
+        } catch (e) {
+            console.error(e); alert('Insert Failed');
+        }
+    });
+};
+
+///insert unit data
+async function insertUnitData(table, values) {
+    const { data, error } = await sb.from(table).insert(values).select('*').single();
+    if(error) {
+        throw error;
+    }
+    return data;
+}
+
+
+function initializeAddUnitButton(courseId){
+    const btn = document.getElementById('add-unit-btn');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+        try {
+            const payload = {
+                course_id: document.getElementById('unit-course-id').value.trim(),
+                name: document.getElementById('unit-name').value.trim(),
+                description: document.getElementById('unit-description').value.trim() || null,
+                image_url: document.getElementById('unit-image-url').value.trim(),
+                sort_order: parseInt(document.getElementById('unit-sort-order').value, 10) || 0,
+                is_active: true
+            };
+            if (!payload.name) return alert('Unit name is required');
+            if (!payload.image_url) return alert('Unit image is required');
+            if (!payload.sort_order) return alert('Unit sort order is required');
+            const row = await insertUnitData('units', payload);
+            console.log('Inserted', row);
+            alert('Insert Success');
+            document.getElementById('unit-name').value = '';
+            document.getElementById('unit-description').value = '';
+            document.getElementById('unit-image-url').value = '';
+            document.getElementById('unit-sort-order').value = '';
+            document.getElementById('unit-select').value = '';
+            document.getElementById('unit-item').innerHTML = '';
+            if(row) {
+                renderUnits(courseId);
+            } else {
+                alert('Unit Re-Render Failed');
             }
         } catch (e) {
             console.error(e); alert('Insert Failed');
