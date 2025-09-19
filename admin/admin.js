@@ -569,6 +569,49 @@ function initializeAddContentButton(lessonId) {
     });
 }
 
+async function insertQuestionData(table, values) {
+    const { data, error } = await sb.from(table).insert(values).select('*').single();
+    if(error) {
+        throw error;
+    }
+    return data;
+}
+
+function initializeAddQuestionButton(contentId) {
+    const btn = document.getElementById('add-question-btn');
+    if(!btn) return;
+    btn.addEventListener('click', async () => {
+        try {
+            const payload = {
+                content_id: contentId,
+                prompt: document.getElementById('question-prompt').value.trim(),
+                tokens: document.getElementById('question-tokens').value.trim(),
+                answer: document.getElementById('question-answer').value.trim(),
+                sort_order: parseInt(document.getElementById('question-sort-order').value, 10) || 0,
+                is_active: true
+            };
+            if (!payload.prompt) return alert('Question prompt is required');
+            if (!payload.tokens) return alert('Question tokens are required');
+            if (!payload.answer) return alert('Question answer is required');
+            if (!payload.sort_order) return alert('Question sort order is required');
+            const row = await insertQuestionData('questions', payload);
+            console.log('Inserted', row);
+            alert('Insert Success');
+            document.getElementById('question-prompt').value = '';
+            document.getElementById('question-tokens').value = '';
+            document.getElementById('question-answer').value = '';
+            document.getElementById('question-sort-order').value = '';
+            if(row) {
+                renderQuestions(contentId);
+            } else {
+                alert('Question Re-Render Failed');
+            }
+        } catch (e) {
+            console.error(e); alert('Insert Failed');
+        }
+    });
+}
+
 function formatDate(date) {
     const d = new Date(date);
     if (Number.isNaN(d.getTime())) return 'Invalid Date';
