@@ -544,7 +544,7 @@ function initializeAddContentButton(lessonId) {
         try {
             const payload = {
                 lesson_id: document.getElementById('content-lesson-id').value.trim(),
-                markdown_content: document.getElementById('content-markdown-content').value.trim(),
+                markdown_content: document.getElementById('markdown-content').value.trim(),
                 description: document.getElementById('content-description').value.trim() || null,
                 sort_order: parseInt(document.getElementById('content-sort-order').value, 10) || 0,
                 is_active: true
@@ -554,7 +554,7 @@ function initializeAddContentButton(lessonId) {
             const row = await insertContentData('contents', payload);
             console.log('Inserted', row);
             alert('Insert Success');
-            document.getElementById('content-markdown-content').value = '';
+            document.getElementById('markdown-content').value = '';
             document.getElementById('content-description').value = '';
             document.getElementById('content-image-url').value = '';
             document.getElementById('content-sort-order').value = '';
