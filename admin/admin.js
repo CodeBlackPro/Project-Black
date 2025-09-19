@@ -15,8 +15,8 @@ async function renderCategories() {
     const categories = await fetchCategories();
     const categoryItemContainer = document.getElementById('category-item-container');
     categoryItemContainer.innerHTML = '';
-    let sortOrder = -1;
-    if(categories.length > 0) {
+    let sortOrder = 0;
+    if(categories.length >= 0) {
         categories.forEach(category => {
             if(category.sort_order >= sortOrder) {
                 sortOrder = category.sort_order + 1;
@@ -58,11 +58,11 @@ async function renderSubjects(categoryId) {
     const subjectContainer = document.getElementById('subject-container');
     subjectContainer.style.display = 'block';
     document.getElementById('subject-category-id').value = categoryId;
-    let sortOrder = -1;
+    let sortOrder = 0;
     const subjects = await fetchSubjects(categoryId);
     const subjectItemContainer = document.getElementById('subject-item-container');
     subjectItemContainer.innerHTML = '';
-    if(subjects.length > 0) {
+    if(subjects.length >= 0) {
         subjects.forEach(subject => {
             if(subject.sort_order >= sortOrder) {
                 sortOrder = subject.sort_order + 1;
@@ -104,11 +104,11 @@ async function renderCourses(subjectId) {
     const courseContainer = document.getElementById('course-container');
     courseContainer.style.display = 'block';
     document.getElementById('course-subject-id').value = subjectId;
-    let sortOrder = -1;
+    let sortOrder = 0;
     const courses = await fetchCourses(subjectId);
     const courseItemContainer = document.getElementById('course-item-container');
     courseItemContainer.innerHTML = '';
-    if(courses.length > 0) {
+    if(courses.length >= 0) {
         courses.forEach(course => {
             if(course.sort_order >= sortOrder) {
                 sortOrder = course.sort_order + 1;
@@ -150,11 +150,11 @@ async function renderUnits(courseId) {
     const unitContainer = document.getElementById('unit-container');
     unitContainer.style.display = 'block';
     document.getElementById('unit-course-id').value = courseId;
-    let sortOrder = -1;
+    let sortOrder = 0;
     const units = await fetchUnits(courseId);
     const unitItemContainer = document.getElementById('unit-item-container');
     unitItemContainer.innerHTML = '';
-    if(units.length > 0) {
+    if(units.length >= 0) {
         units.forEach(unit => {
             if(unit.sort_order >= sortOrder) {
                 sortOrder = unit.sort_order + 1;
@@ -195,11 +195,11 @@ async function renderLessons(unitId) {
     const lessonContainer = document.getElementById('lesson-container');
     lessonContainer.style.display = 'block';
     document.getElementById('lesson-unit-id').value = unitId;
-    let sortOrder = -1;
+    let sortOrder = 0;
     const lessons = await fetchLessons(unitId);
     const lessonItemContainer = document.getElementById('lesson-item-container');
     lessonItemContainer.innerHTML = '';
-    if(lessons.length > 0) {
+    if(lessons.length >= 0) {
         lessons.forEach(lesson => {
             if(lesson.sort_order >= sortOrder) {
                 sortOrder = lesson.sort_order + 1;
@@ -240,11 +240,11 @@ async function renderContents(lessonId) {
     const contentContainer = document.getElementById('content-container');
     contentContainer.style.display = 'block';
     document.getElementById('content-lesson-id').value = lessonId;
-    let sortOrder = -1;
+    let sortOrder = 0;
     const contents = await fetchContents(lessonId);
     const contentItemContainer = document.getElementById('content-item-container');
     contentItemContainer.innerHTML = '';
-    if(contents.length > 0) {
+    if(contents.length >= 0) {
         contents.forEach(content => {
             if(content.sort_order >= sortOrder) {
                 sortOrder = content.sort_order + 1;
@@ -285,11 +285,11 @@ async function renderQuestions(contentId) {
     const questionContainer = document.getElementById('question-container');
     questionContainer.style.display = 'block';
     document.getElementById('question-content-id').value = contentId;
-    let sortOrder = -1;
+    let sortOrder = 0;
     const questions = await fetchQuestions(contentId);
     const questionItemContainer = document.getElementById('question-item-container');
     questionItemContainer.innerHTML = '';
-    if(questions.length > 0) {
+    if(questions.length >= 0) {
         questions.forEach(question => {
             if(question.sort_order >= sortOrder) {
                 sortOrder = question.sort_order + 1;
@@ -335,7 +335,7 @@ async function insertCategoryData(table, values) {
             };
             if (!payload.name) return alert('Category name is required');
             if (!payload.image_url) return alert('Category image is required');
-            if (!payload.sort_order) return alert('Category sort order is required');
+            if (!payload.sort_order === null || Number.isNaN(payload.sort_order)) return alert('Category sort order is required');
             const row = await insertCategoryData('categories', payload);
             console.log('Inserted', row);
             alert('Insert Success');
@@ -378,7 +378,7 @@ function initializeAddSubjectButton(categoryId){
             };
             if (!payload.name) return alert('Subject name is required');
             if (!payload.image_url) return alert('Subject image is required');
-            if (!payload.sort_order) return alert('Subject sort order is required');
+            if (!payload.sort_order === null || Number.isNaN(payload.sort_order)) return alert('Subject sort order is required');
             const row = await insertSubjectData('subjects', payload);
             console.log('Inserted', row);
             alert('Insert Success');
@@ -421,7 +421,7 @@ function initializeAddCourseButton(subjectId){
             };
             if (!payload.name) return alert('Course name is required');
             if (!payload.image_url) return alert('Course image is required');
-            if (!payload.sort_order) return alert('Course sort order is required');
+            if (!payload.sort_order === null || Number.isNaN(payload.sort_order)) return alert('Course sort order is required');
             const row = await insertCourseData('courses', payload);
             console.log('Inserted', row);
             alert('Insert Success');
@@ -465,7 +465,7 @@ function initializeAddUnitButton(courseId){
             };
             if (!payload.name) return alert('Unit name is required');
             if (!payload.image_url) return alert('Unit image is required');
-            if (!payload.sort_order) return alert('Unit sort order is required');
+            if (!payload.sort_order === null || Number.isNaN(payload.sort_order)) return alert('Unit sort order is required');
             const row = await insertUnitData('units', payload);
             console.log('Inserted', row);
             alert('Insert Success');
@@ -509,7 +509,7 @@ function initializeAddLessonButton(unitId){
             };
             if (!payload.name) return alert('Lesson name is required');
             if (!payload.image_url) return alert('Lesson image is required');
-            if (!payload.sort_order) return alert('Lesson sort order is required');
+            if (!payload.sort_order === null || Number.isNaN(payload.sort_order)) return alert('Lesson sort order is required');
             const row = await insertLessonData('lessons', payload);
             console.log('Inserted', row);
             alert('Insert Success');
@@ -550,7 +550,7 @@ function initializeAddContentButton(lessonId) {
                 is_active: true
             };
             if (!payload.markdown_content) return alert('Content markdown content is required');
-            if (!payload.sort_order) return alert('Content sort order is required');
+            if (!payload.sort_order === null || Number.isNaN(payload.sort_order)) return alert('Content sort order is required');
             const row = await insertContentData('contents', payload);
             console.log('Inserted', row);
             alert('Insert Success');
@@ -593,7 +593,7 @@ function initializeAddQuestionButton(contentId) {
             if (!payload.prompt) return alert('Question prompt is required');
             if (!payload.tokens) return alert('Question tokens are required');
             if (!payload.answer) return alert('Question answer is required');
-            if (!payload.sort_order) return alert('Question sort order is required');
+            if (!payload.sort_order === null || Number.isNaN(payload.sort_order)) return alert('Question sort order is required');
             const row = await insertQuestionData('questions', payload);
             console.log('Inserted', row);
             alert('Insert Success');
