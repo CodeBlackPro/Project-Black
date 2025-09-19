@@ -324,7 +324,7 @@ async function insertCategoryData(table, values) {
 (function initializeAddCategoryButton(){
     const btn = document.getElementById('add-category-btn');
     if (!btn) return;
-    btn.addEventListener('click', async () => {
+    btn.onclick = async () => {
         try {
             const payload = {
                 name: document.getElementById('category-name').value.trim(),
@@ -352,7 +352,7 @@ async function insertCategoryData(table, values) {
         } catch (e) {
             console.error(e); alert('Insert Failed');
         }
-    });
+    };
 })();
 
 async function insertSubjectData(table, values) {
@@ -366,7 +366,7 @@ async function insertSubjectData(table, values) {
 function initializeAddSubjectButton(categoryId){
     const btn = document.getElementById('add-subject-btn');
     if (!btn) return;
-    btn.addEventListener('click', async () => {
+    btn.onclick = async () => {
         try {
             const payload = {
                 category_id: document.getElementById('subject-category-id').value.trim(),
@@ -394,7 +394,7 @@ function initializeAddSubjectButton(categoryId){
         } catch (e) {
             console.error(e); alert('Insert Failed');
         }
-    });
+    };
 };
 
 ///insert course data
@@ -409,7 +409,7 @@ async function insertCourseData(table, values) {
 function initializeAddCourseButton(subjectId){
     const btn = document.getElementById('add-course-btn');
     if (!btn) return;
-    btn.addEventListener('click', async () => {
+    btn.onclick = async () => {
         try {
             const payload = {
                 subject_id: document.getElementById('course-subject-id').value.trim(),
@@ -437,7 +437,7 @@ function initializeAddCourseButton(subjectId){
         } catch (e) {
             console.error(e); alert('Insert Failed');
         }
-    });
+    };
 };
 
 ///insert unit data
@@ -453,7 +453,7 @@ async function insertUnitData(table, values) {
 function initializeAddUnitButton(courseId){
     const btn = document.getElementById('add-unit-btn');
     if (!btn) return;
-    btn.addEventListener('click', async () => {
+    btn.onclick = async () => {
         try {
             const payload = {
                 course_id: document.getElementById('unit-course-id').value.trim(),
@@ -481,7 +481,7 @@ function initializeAddUnitButton(courseId){
         } catch (e) {
             console.error(e); alert('Insert Failed');
         }
-    });
+    };
 };
 
 ///insert lesson data
@@ -497,7 +497,7 @@ async function insertLessonData(table, values) {
 function initializeAddLessonButton(unitId){
     const btn = document.getElementById('add-lesson-btn');
     if (!btn) return;
-    btn.addEventListener('click', async () => {
+    btn.onclick = async () => {
         try {
             const payload = {
                 unit_id: document.getElementById('lesson-unit-id').value.trim(),
@@ -525,7 +525,7 @@ function initializeAddLessonButton(unitId){
         } catch (e) {
             console.error(e); alert('Insert Failed');
         }
-    });
+    };
 };
 
 //insert content data
@@ -540,7 +540,7 @@ async function insertContentData(table, values) {
 function initializeAddContentButton(lessonId) {
     const btn = document.getElementById('add-content-btn');
     if(!btn) return;
-    btn.addEventListener('click', async () => {
+    btn.onclick = async () => {
         try {
             const payload = {
                 lesson_id: document.getElementById('content-lesson-id').value.trim(),
@@ -566,7 +566,7 @@ function initializeAddContentButton(lessonId) {
         } catch (e) {
             console.error(e); alert('Insert Failed');
         }
-    });
+    };
 }
 
 async function insertQuestionData(table, values) {
@@ -580,7 +580,7 @@ async function insertQuestionData(table, values) {
 function initializeAddQuestionButton(contentId) {
     const btn = document.getElementById('add-question-btn');
     if(!btn) return;
-    btn.addEventListener('click', async () => {
+    btn.onclick = async () => {
         try {
             const payload = {
                 content_id: contentId,
@@ -609,7 +609,7 @@ function initializeAddQuestionButton(contentId) {
         } catch (e) {
             console.error(e); alert('Insert Failed');
         }
-    });
+    };
 }
 
 function formatDate(date) {
