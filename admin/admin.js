@@ -1,15 +1,11 @@
 window.supabaseClient = window.supabase.createClient(supabaseUrl, publishKey);
 
-async function fetchTableData(table) {
-    const {data, error} = await window.supabaseClient.from(table).select('*');
-    if (error) {
-        console.error(error);
-        return [];
-    }
-    else {
-        console.log(data);
-        return data;
-    }
+async function fetchTable(table, builder) {
+    let q = sb.from(table).select('*');
+    if(typeof builder === 'function') q = builder(q);
+    const {data, error} = await q;
+    if (error) throw error;
+    return data || [];
 }
 
 async function updateTableRow(table, rowId, payload) {
@@ -39,7 +35,7 @@ async function deleteTableRow(table, rowId) {
 }
 
 async function renderCategories() {
-    const categories = await fetchTableData('categories');
+    const categories = await fetchTable('categories');
     const categoryItemContainer = document.getElementById('category-item-container');
     categoryItemContainer.innerHTML = '';
     let sortOrder = 0;
@@ -139,23 +135,12 @@ async function renderCategories() {
     }
 }
 
-async function fetchSubjects(categoryId) {
-    const {data, error} = await window.supabaseClient.from('subjects').select('*').eq('category_id', categoryId);
-    if (error) {
-        console.error(error);
-        return [];
-    } else {
-        console.log(data);
-        return data;
-    }
-}
-
 async function renderSubjects(categoryId) {
     const subjectContainer = document.getElementById('subject-container');
     subjectContainer.style.display = 'block';
     document.getElementById('subject-category-id').value = categoryId;
     let sortOrder = 0;
-    const subjects = await fetchSubjects(categoryId);
+    const subjects = await fetchTable('subjects', q => q.eq('category_id', categoryId));
     const subjectItemContainer = document.getElementById('subject-item-container');
     subjectItemContainer.innerHTML = '';
     if(subjects.length >= 0) {
@@ -164,20 +149,28 @@ async function renderSubjects(categoryId) {
                 sortOrder = subject.sort_order + 1;
             }
             if(!subject.is_active) return;
-            const btn = document.createElement('button');
-            btn.innerHTML += '<img src="' + subject.image_url + '" alt="Subject Image">';
-            btn.innerHTML += '<p> name: ' + subject.name + '</p>';
-            btn.innerHTML += '<p> description: ' + (subject.description == null ? 'No description' : subject.description) + '</p>';
-            btn.innerHTML += '<p> sort order: ' + subject.sort_order + '</p>';
-            btn.innerHTML += '<p> active status: ' + subject.is_active + '</p>';
-            btn.innerHTML += '<p> created at: ' + formatDate(subject.created_at) + '</p>';
-            btn.innerHTML += '<p> updated at: ' + formatDate(subject.updated_at) + '</p>';
-            subjectItemContainer.appendChild(btn);
-            btn.addEventListener('click', () => {
+            const itemContainer = document.createElement('div');
+            itemContainer.classList.add('item');
+            itemContainer.innerHTML += '<p>IMAGE</p>';
+            itemContainer.innerHTML += '<img src="' + subject.image_url + '" alt="Subject Image">';
+            itemContainer.innerHTML += '<input type="text" value="' + subject.image_url + '" readonly>';
+            itemContainer.innerHTML += '<p> name: ' + subject.name + '</p>';
+            itemContainer.innerHTML += '<input type="text" value="' + subject.name + '" readonly>';
+            itemContainer.innerHTML += '<p> description: ' + (subject.description == null ? 'No description' : subject.description) + '</p>';
+            itemContainer.innerHTML += '<input type="text" value="' + (subject.description == null ? 'No description' : subject.description) + '" readonly>';
+            itemContainer.innerHTML += '<p> sort order: ' + subject.sort_order + '</p>';
+            itemContainer.innerHTML += '<input type="text" value="' + subject.sort_order + '" readonly>';
+            itemContainer.innerHTML += '<p> active status: ' + subject.is_active + '</p>';
+            itemContainer.innerHTML += '<input type="text" value="' + subject.is_active + '" readonly>';
+            itemContainer.innerHTML += '<p> created at: ' + formatDate(subject.created_at) + '</p>';
+            itemContainer.innerHTML += '<p> updated at: ' + formatDate(subject.updated_at) + '</p>';
+            subjectItemContainer.appendChild(itemContainer);
+            itemContainer.addEventListener('click', () => {
                 //show courses within subject
                 renderCourses(subject.id);
                 initializeAddCourseButton(subject.id);
             });
+            
         });
         document.getElementById('subject-sort-order').value = sortOrder;
     } else {
@@ -185,16 +178,7 @@ async function renderSubjects(categoryId) {
     }
 }
 
-async function fetchCourses(subjectId) {
-    const {data, error} = await window.supabaseClient.from('courses').select('*').eq('subject_id', subjectId);
-    if (error) {
-        console.error(error);
-        return [];
-    } else {
-        console.log(data);
-        return data;
-    }
-}
+
 
 async function renderCourses(subjectId) {
     const courseContainer = document.getElementById('course-container');

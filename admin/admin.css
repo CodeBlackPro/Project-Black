@@ -20,6 +20,7 @@ button {
 .content-add-section {
     display: flex;
     flex-direction: horizontal;
+    flex-wrap: wrap;
     align-items: end;
     justify-content: center;
     gap: 10px;
@@ -32,6 +33,7 @@ button {
     align-items: center;
     justify-content: center;
     gap: 20px;
+    overflow-x: auto;
 }
 
 .item {
@@ -45,6 +47,7 @@ button {
     border: 1px solid #939393;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
+    max-width: 300px;
 }
 
 .action-button-container {
