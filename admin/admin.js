@@ -2,6 +2,7 @@ window.supabaseClient = window.supabase.createClient(supabaseUrl, publishKey);
 
 function createFields(schema, rowData, table) {
     const card = document.createElement('div');
+    const inputList = [];
 
     schema.forEach(field => {
         const label = document.createElement('p');
@@ -38,9 +39,12 @@ function createFields(schema, rowData, table) {
         } else if(field.type === 'boolean') {
             input.type = 'checkbox';
             input.checked = rowData[field.key] ?? false;
-            input.readOnly = true;
+            input.disabled = true;
         }
         input.dataset.field = field.key;
+        if(field.key != 'created_at' && field.key != 'updated_at' && field.key != 'id') {
+            inputList.push(input);
+        }
         card.appendChild(input);
     });
 
@@ -50,7 +54,25 @@ function createFields(schema, rowData, table) {
     editBtn.textContent = 'Edit';
     editBtn.classList.add('edit-btn');
     editBtn.addEventListener('click', () => {
-        console.log('Edit');
+        if(editBtn.textContent === 'Edit') {
+            editBtn.textContent = 'Save';
+            inputList.forEach(input => {
+                if(input.type === 'checkbox') {
+                    input.disabled = false;
+                } else {
+                    input.readOnly = false;
+                }
+            });
+        } else {
+            editBtn.textContent = 'Edit';
+            inputList.forEach(input => {
+                if(input.type === 'checkbox') {
+                    input.disabled = true;
+                } else {
+                    input.readOnly = true;
+                }
+            });
+        }
     });
     actionButtonContainer.appendChild(editBtn);
     const deleteBtn = document.createElement('button');
