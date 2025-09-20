@@ -17,6 +17,15 @@ button {
     padding: 10px;
 }
 
+.content-add-section {
+    display: flex;
+    flex-direction: horizontal;
+    align-items: end;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+}
+
 #category-item-container {
     display: flex;
     flex-direction: horizontal;

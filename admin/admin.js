@@ -1,11 +1,12 @@
 window.supabaseClient = window.supabase.createClient(supabaseUrl, publishKey);
 
-async function fetchCategories() {
-    const {data, error} = await window.supabaseClient.from('categories').select('*');
+async function fetchTableData(table) {
+    const {data, error} = await window.supabaseClient.from(table).select('*');
     if (error) {
         console.error(error);
         return [];
-    } else {
+    }
+    else {
         console.log(data);
         return data;
     }
@@ -38,7 +39,7 @@ async function deleteTableRow(table, rowId) {
 }
 
 async function renderCategories() {
-    const categories = await fetchCategories();
+    const categories = await fetchTableData('categories');
     const categoryItemContainer = document.getElementById('category-item-container');
     categoryItemContainer.innerHTML = '';
     let sortOrder = 0;
