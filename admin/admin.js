@@ -11,8 +11,19 @@ async function fetchCategories() {
     }
 }
 
-async function editCategory(categoryId) {
+async function editCategory(categoryId, payload) {
     console.log(categoryId);
+    console.log(payload);
+    const {data, error} = await window.supabaseClient.from('categories').update(payload).eq('id', categoryId);
+    if (error) {
+        console.error(error);
+        console.log('Edit Failed');
+        return [];
+    } else {
+        console.log(data);
+        console.log('Edit Success');
+        return data;
+    }
 }
 
 async function deleteCategory(categoryId) {
@@ -55,8 +66,36 @@ async function renderCategories() {
             const editCategoryBtn = categoryItem.querySelector('#edit-category-btn');
             const deleteCategoryBtn = categoryItem.querySelector('#delete-category-btn');
 
-            editCategoryBtn.addEventListener('click', () => {
-                editCategory(category.id);
+            const fields = categoryItem.querySelectorAll('input, textarea');
+
+            editCategoryBtn.addEventListener('click', async () => {
+
+                const payload = {
+                    image_url: fields[0].value,
+                    description: fields[2].value || null,
+                    name: fields[1].value,
+                    sort_order: fields[3].value,
+                    is_active: fields[4].value === 'true' ? true : false
+                };
+
+                if (editCategoryBtn.innerHTML === 'Edit') {
+                    editCategoryBtn.innerHTML = 'Save';
+                    fields.forEach(field => {
+                        field.readOnly = false;
+                    });
+                } else {
+                    editCategoryBtn.innerHTML = 'Edit';
+                    try {
+                        await editCategory(category.id, payload);
+                        fields.forEach(field => {
+                            field.readOnly = true;
+                        });
+                        await renderCategories();
+                    } catch (error) {
+                        console.error(error);
+                        console.log('Edit Failed');
+                    }
+                }
             });
 
             deleteCategoryBtn.addEventListener('click', () => {
