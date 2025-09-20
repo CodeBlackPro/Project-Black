@@ -1,5 +1,69 @@
 window.supabaseClient = window.supabase.createClient(supabaseUrl, publishKey);
 
+function createFields(schema, rowData, table) {
+    const card = document.createElement('div');
+
+    schema.forEach(field => {
+        const label = document.createElement('p');
+        label.textContent = field.label;
+        card.appendChild(label);
+        const input = document.createElement('input');
+        if(field.type === 'image') {
+            const image = document.createElement('img');
+            image.src = rowData[field.key] ?? '#';
+            image.alt = 'Image';
+            card.appendChild(image);
+            input.value = rowData[field.key] ?? '';
+            input.readOnly = true;
+        } else if(field.type === 'string') {
+            input.type = 'text';
+            input.value = rowData[field.key] ?? '';
+            input.readOnly = true;
+        } else if(field.type === 'textarea') {
+            const input = document.createElement('textarea');
+            input.value = rowData[field.key] ?? '';
+            input.readOnly = true;
+        } else if(field.type === 'number') {
+            input.type = 'number';
+            input.value = rowData[field.key] ?? '';
+            input.readOnly = true;
+        } else if(field.type === 'date') {
+            input.type = 'datetime-local';
+            input.value = formatDate(rowData[field.key]) ?? '';
+            input.readOnly = true;
+        } else if(field.type === 'id') {
+            input.type = 'text';
+            input.value = rowData[field.key] ?? '';
+            input.readOnly = true;
+        } else if(field.type === 'boolean') {
+            input.type = 'checkbox';
+            input.checked = rowData[field.key] ?? false;
+            input.readOnly = true;
+        }
+        input.dataset.field = field.key;
+        card.appendChild(input);
+    });
+
+    const actionButtonContainer = document.createElement('div');
+    actionButtonContainer.classList.add('action-button-container');
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Edit';
+    editBtn.classList.add('edit-btn');
+    editBtn.addEventListener('click', () => {
+        console.log('Edit');
+    });
+    actionButtonContainer.appendChild(editBtn);
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.addEventListener('click', () => {
+        console.log('Delete');
+    });
+    actionButtonContainer.appendChild(deleteBtn);
+    card.appendChild(actionButtonContainer);
+    return card;
+}
+
 async function fetchTable(table, builder) {
     let q = sb.from(table).select('*');
     if(typeof builder === 'function') q = builder(q);
@@ -8,7 +72,7 @@ async function fetchTable(table, builder) {
     return data || [];
 }
 
-async function updateTableRow(table, rowId, payload) {
+async function editTableRow(inputList, table) {
     const {data, error} = await window.supabaseClient.from(table).update(payload).eq('id', rowId);
     if (error) {
         console.error(error);
@@ -35,101 +99,28 @@ async function deleteTableRow(table, rowId) {
 }
 
 async function renderCategories() {
-    const categories = await fetchTable('categories');
+    const schema = [
+        {key:'image_url', label:'IMAGE', type:'image'},
+        {key:'name', label:'NAME', type:'string'},
+        {key:'description', label:'DESCRIPTION', type:'textarea'},
+        {key:'sort_order', label:'SORT ORDER', type:'number'},
+        {key:'is_active', label:'ACTIVE STATUS', type:'boolean'},
+        {key:'created_at', label:'CREATED AT', type:'date'},
+        {key:'updated_at', label:'UPDATED AT', type:'date'},
+        {key:'id', label:'ID', type:'id'}
+    ];
+
+    const categoryTableData = await fetchTable('categories');
     const categoryItemContainer = document.getElementById('category-item-container');
     categoryItemContainer.innerHTML = '';
-    let sortOrder = 0;
-    if(categories.length >= 0) {
-        categories.forEach(category => {
-            if(category.sort_order >= sortOrder) {
-                sortOrder = category.sort_order + 1;
-            }
-            if(!category.is_active) return;
-            const categoryItem = document.createElement('div');
-            categoryItem.classList.add('item');
-            categoryItem.innerHTML += '<p>IMAGE</p>';
-            categoryItem.innerHTML += `<img src="${category.image_url}" alt="Category Image">`;
-            categoryItem.innerHTML += `<input type="text" value="${category.image_url}" readonly>`;
-            categoryItem.innerHTML += '<p>NAME</p>';
-            categoryItem.innerHTML += `<input type="text" value="${category.name}" readonly>`;
-            categoryItem.innerHTML += '<p>DESCRIPTION</p>';
-            categoryItem.innerHTML += `<textarea readonly>${category.description == null ? 'No description' : category.description}</textarea>`;
-            categoryItem.innerHTML += '<p>SORT ORDER</p>';
-            categoryItem.innerHTML += `<input type="text" value="${category.sort_order}" readonly>`;
-            categoryItem.innerHTML += '<p>ACTIVE STATUS</p>';
-            categoryItem.innerHTML += `<input type="text" value="${category.is_active}" readonly>`;
-            categoryItem.innerHTML += '<p>ID</p>';
-            categoryItem.innerHTML += `<input type="text" value="${category.id}" readonly>`;
-            categoryItem.innerHTML += '<p>CREATED AT</p>';
-            categoryItem.innerHTML += `<input type="text" value="${formatDate(category.created_at)}" readonly>`;
-            categoryItem.innerHTML += '<p>UPDATED AT</p>';
-            categoryItem.innerHTML += `<input type="text" value="${formatDate(category.updated_at)}" readonly>`;
-            categoryItem.innerHTML += '<div class="action-button-container"><button class="edit-btn">Edit</button><button class="delete-btn">Delete</button></div>';
-
-
-            const editCategoryBtn = categoryItem.querySelector('.edit-btn');
-            const deleteCategoryBtn = categoryItem.querySelector('.delete-btn');
-
-            const fields = categoryItem.querySelectorAll('input, textarea');
-
-            const payload = {
-                image_url: fields[0].value,
-                description: fields[2].value || null,
-                name: fields[1].value,
-                sort_order: fields[3].value,
-                is_active: fields[4].value === 'true' ? true : false
-            };
-
-            editCategoryBtn.addEventListener('click', async () => {
-
-
-                if (editCategoryBtn.innerHTML === 'Edit') {
-                    editCategoryBtn.innerHTML = 'Save';
-                    fields.forEach(field => {
-                        field.readOnly = false;
-                    });
-                } else {
-                    editCategoryBtn.innerHTML = 'Edit';
-                    try {
-                        await updateTableRow('categories', category.id, payload);
-                        fields.forEach(field => {
-                            field.readOnly = true;
-                        });
-                        await renderCategories();
-                    } catch (error) {
-                        console.error(error);
-                        console.log('Edit Failed');
-                    }
-                }
-            });
-
-            deleteCategoryBtn.addEventListener('click', async () => {
-                //set up alert to confirm deletion
-                if(!window.confirm('Are you sure you want to delete this category?')) return;
-                try {
-                    await deleteTableRow('categories', category.id);
-                    await renderCategories();
-                } catch (error) {
-                    console.error(error);
-                    console.log('Delete Failed');
-                }
-            });
-
-            let armCategoryClick = false;
-            categoryItem.onpointerdown = (e) => {
-                armCategoryClick = (e.target === categoryItem);
-            };
-
-            categoryItem.onclick = (e) => {
-                if (e.target.matches('input, img, button, textarea') || !armCategoryClick) return;
-                //show subjects within category
-                renderSubjects(category.id);
-                initializeAddSubjectButton(category.id);
-            };
-            categoryItemContainer.appendChild(categoryItem);
+    if(categoryTableData.length >= 0) {
+        categoryTableData.forEach(rowData => {
+            const card = createFields(schema, rowData);
+            card.classList.add('item');
+            categoryItemContainer.appendChild(card);
         });
         //
-        document.getElementById('category-sort-order').value = sortOrder;
+        //document.getElementById('category-sort-order').value = sortOrder;
     } else {
         categoryItemContainer.innerHTML = '<p>No categories found</p>';
     }
@@ -695,17 +686,13 @@ function initializeAddQuestionButton(contentId) {
     };
 }
 
-function formatDate(date) {
-    const d = new Date(date);
-    if (Number.isNaN(d.getTime())) return 'Invalid Date';
-    return new Intl.DateTimeFormat(undefined, {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZoneName: 'short'
-    }).format(d);
+function formatDate(value) {
+    if (!value) return '';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return '';
+    const tzOffset = date.getTimezoneOffset() * 60000;
+    const local = new Date(date.getTime() - tzOffset);
+    return local.toISOString().slice(0, 16);
 }
 
 renderCategories();
