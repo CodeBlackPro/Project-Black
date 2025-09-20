@@ -26,6 +26,19 @@ async function editCategory(categoryId, payload) {
     }
 }
 
+async function updateTableRow(table, rowId, payload) {
+    const {data, error} = await window.supabaseClient.from(table).update(payload).eq('id', rowId);
+    if (error) {
+        console.error(error);
+        console.log('Update Failed');
+        return [];
+    } else {
+        console.log(data);
+        console.log('Update Success');
+        return data;
+    }
+}
+
 async function deleteCategory(categoryId) {
     console.log(categoryId);
 }
@@ -86,7 +99,7 @@ async function renderCategories() {
                 } else {
                     editCategoryBtn.innerHTML = 'Edit';
                     try {
-                        await editCategory(category.id, payload);
+                        await updateTableRow('categories', category.id, payload);
                         fields.forEach(field => {
                             field.readOnly = true;
                         });
