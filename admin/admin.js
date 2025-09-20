@@ -11,21 +11,6 @@ async function fetchCategories() {
     }
 }
 
-async function editCategory(categoryId, payload) {
-    console.log(categoryId);
-    console.log(payload);
-    const {data, error} = await window.supabaseClient.from('categories').update(payload).eq('id', categoryId);
-    if (error) {
-        console.error(error);
-        console.log('Edit Failed');
-        return [];
-    } else {
-        console.log(data);
-        console.log('Edit Success');
-        return data;
-    }
-}
-
 async function updateTableRow(table, rowId, payload) {
     const {data, error} = await window.supabaseClient.from(table).update(payload).eq('id', rowId);
     if (error) {
@@ -39,8 +24,17 @@ async function updateTableRow(table, rowId, payload) {
     }
 }
 
-async function deleteCategory(categoryId) {
-    console.log(categoryId);
+async function deleteTableRow(table, rowId) {
+    const {data, error} = await window.supabaseClient.from(table).delete().eq('id', rowId);
+    if (error) {
+        console.error(error);
+        console.log('Delete Failed');
+        return [];
+    } else {
+        console.log(data);
+        console.log('Delete Success');
+        return data;
+    }
 }
 
 async function renderCategories() {
@@ -81,15 +75,16 @@ async function renderCategories() {
 
             const fields = categoryItem.querySelectorAll('input, textarea');
 
+            const payload = {
+                image_url: fields[0].value,
+                description: fields[2].value || null,
+                name: fields[1].value,
+                sort_order: fields[3].value,
+                is_active: fields[4].value === 'true' ? true : false
+            };
+
             editCategoryBtn.addEventListener('click', async () => {
 
-                const payload = {
-                    image_url: fields[0].value,
-                    description: fields[2].value || null,
-                    name: fields[1].value,
-                    sort_order: fields[3].value,
-                    is_active: fields[4].value === 'true' ? true : false
-                };
 
                 if (editCategoryBtn.innerHTML === 'Edit') {
                     editCategoryBtn.innerHTML = 'Save';
@@ -111,8 +106,16 @@ async function renderCategories() {
                 }
             });
 
-            deleteCategoryBtn.addEventListener('click', () => {
-                deleteCategory(category.id);
+            deleteCategoryBtn.addEventListener('click', async () => {
+                //set up alert to confirm deletion
+                if(!window.confirm('Are you sure you want to delete this category?')) return;
+                try {
+                    await deleteTableRow('categories', category.id);
+                    await renderCategories();
+                } catch (error) {
+                    console.error(error);
+                    console.log('Delete Failed');
+                }
             });
 
             let armCategoryClick = false;
