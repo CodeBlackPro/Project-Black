@@ -37,6 +37,47 @@ button {
     font-family: 'Poppins', sans-serif;
 }
 
+.action-button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.action-button-container button {
+    padding: 5px 10px;
+    background-color: #212121;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+}
+
+#edit-category-btn {
+    background-color: #006eff;
+}
+
+#delete-category-btn {
+    background-color: #ff0000;
+}
+
+#edit-category-btn:hover {
+    background-color: #006eff90;
+}
+
+#delete-category-btn:hover {
+    background-color: #ff000090;
+}
+
+.action-button-container button:hover {
+    cursor: pointer;
+}
+
+
+
 #category-item {
     display: none;
 }

@@ -11,6 +11,14 @@ async function fetchCategories() {
     }
 }
 
+async function editCategory(categoryId) {
+    console.log(categoryId);
+}
+
+async function deleteCategory(categoryId) {
+    console.log(categoryId);
+}
+
 async function renderCategories() {
     const categories = await fetchCategories();
     const categoryItemContainer = document.getElementById('category-item-container');
@@ -41,6 +49,19 @@ async function renderCategories() {
             categoryItem.innerHTML += `<input type="text" value="${formatDate(category.created_at)}" readonly>`;
             categoryItem.innerHTML += '<p>UPDATED AT</p>';
             categoryItem.innerHTML += `<input type="text" value="${formatDate(category.updated_at)}" readonly>`;
+            categoryItem.innerHTML += '<div class="action-button-container"><button id="edit-category-btn">Edit</button><button id="delete-category-btn">Delete</button></div>';
+
+
+            const editCategoryBtn = categoryItem.querySelector('#edit-category-btn');
+            const deleteCategoryBtn = categoryItem.querySelector('#delete-category-btn');
+
+            editCategoryBtn.addEventListener('click', () => {
+                editCategory(category.id);
+            });
+
+            deleteCategoryBtn.addEventListener('click', () => {
+                deleteCategory(category.id);
+            });
 
             let armCategoryClick = false;
             categoryItem.onpointerdown = (e) => {
@@ -54,23 +75,8 @@ async function renderCategories() {
                 initializeAddSubjectButton(category.id);
             };
             categoryItemContainer.appendChild(categoryItem);
-            /*
-            const btn = document.createElement('button');
-            btn.innerHTML += '<img src="' + category.image_url + '" alt="Category Image">';
-            btn.innerHTML += '<p> name: ' + category.name + '</p>';
-            btn.innerHTML += '<p> description: ' + (category.description == null ? 'No description' : category.description) + '</p>';
-            btn.innerHTML += '<p> sort order: ' + category.sort_order + '</p>';
-            btn.innerHTML += '<p> active status: ' + category.is_active + '</p>';
-            btn.innerHTML += '<p> created at: ' + formatDate(category.created_at) + '</p>';
-            btn.innerHTML += '<p> updated at: ' + formatDate(category.updated_at) + '</p>';
-            categoryItemContainer.appendChild(btn);
-            btn.addEventListener('click', () => {
-                //show subjects within category
-                renderSubjects(category.id);
-                initializeAddSubjectButton(category.id);
-            });
-            */
         });
+        //
         document.getElementById('category-sort-order').value = sortOrder;
     } else {
         categoryItemContainer.innerHTML = '<p>No categories found</p>';
