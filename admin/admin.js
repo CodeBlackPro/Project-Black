@@ -22,6 +22,39 @@ async function renderCategories() {
                 sortOrder = category.sort_order + 1;
             }
             if(!category.is_active) return;
+            const categoryItem = document.createElement('div');
+            categoryItem.classList.add('item');
+            categoryItem.innerHTML += '<p>IMAGE</p>';
+            categoryItem.innerHTML += `<img src="${category.image_url}" alt="Category Image">`;
+            categoryItem.innerHTML += `<input type="text" value="${category.image_url}" readonly>`;
+            categoryItem.innerHTML += '<p>NAME</p>';
+            categoryItem.innerHTML += `<input type="text" value="${category.name}" readonly>`;
+            categoryItem.innerHTML += '<p>DESCRIPTION</p>';
+            categoryItem.innerHTML += `<textarea readonly>${category.description == null ? 'No description' : category.description}</textarea>`;
+            categoryItem.innerHTML += '<p>SORT ORDER</p>';
+            categoryItem.innerHTML += `<input type="text" value="${category.sort_order}" readonly>`;
+            categoryItem.innerHTML += '<p>ACTIVE STATUS</p>';
+            categoryItem.innerHTML += `<input type="text" value="${category.is_active}" readonly>`;
+            categoryItem.innerHTML += '<p>ID</p>';
+            categoryItem.innerHTML += `<input type="text" value="${category.id}" readonly>`;
+            categoryItem.innerHTML += '<p>CREATED AT</p>';
+            categoryItem.innerHTML += `<input type="text" value="${formatDate(category.created_at)}" readonly>`;
+            categoryItem.innerHTML += '<p>UPDATED AT</p>';
+            categoryItem.innerHTML += `<input type="text" value="${formatDate(category.updated_at)}" readonly>`;
+
+            let armCategoryClick = false;
+            categoryItem.onpointerdown = (e) => {
+                armCategoryClick = (e.target === categoryItem);
+            };
+
+            categoryItem.onclick = (e) => {
+                if (e.target.matches('input, img, button, textarea') || !armCategoryClick) return;
+                //show subjects within category
+                renderSubjects(category.id);
+                initializeAddSubjectButton(category.id);
+            };
+            categoryItemContainer.appendChild(categoryItem);
+            /*
             const btn = document.createElement('button');
             btn.innerHTML += '<img src="' + category.image_url + '" alt="Category Image">';
             btn.innerHTML += '<p> name: ' + category.name + '</p>';
@@ -36,6 +69,7 @@ async function renderCategories() {
                 renderSubjects(category.id);
                 initializeAddSubjectButton(category.id);
             });
+            */
         });
         document.getElementById('category-sort-order').value = sortOrder;
     } else {

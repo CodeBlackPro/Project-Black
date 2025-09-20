@@ -17,6 +17,26 @@ button {
     padding: 10px;
 }
 
+#category-item-container {
+    display: flex;
+    flex-direction: horizontal;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #212121;
+    border-radius: 5px;
+    border: 1px solid #939393;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
 #category-item {
     display: none;
 }
