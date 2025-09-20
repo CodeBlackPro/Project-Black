@@ -61,7 +61,6 @@ button {
 
 .action-button-container button {
     padding: 5px 10px;
-    background-color: #212121;
     color: white;
     font-size: 1rem;
     font-weight: 600;
@@ -69,19 +68,19 @@ button {
     border: none;
 }
 
-#edit-category-btn {
+.edit-btn {
     background-color: #006eff;
 }
 
-#delete-category-btn {
+.delete-btn {
     background-color: #ff0000;
 }
 
-#edit-category-btn:hover {
+.edit-btn:hover {
     background-color: #006eff90;
 }
 
-#delete-category-btn:hover {
+.delete-btn:hover {
     background-color: #ff000090;
 }
 

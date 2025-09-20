@@ -64,11 +64,11 @@ async function renderCategories() {
             categoryItem.innerHTML += `<input type="text" value="${formatDate(category.created_at)}" readonly>`;
             categoryItem.innerHTML += '<p>UPDATED AT</p>';
             categoryItem.innerHTML += `<input type="text" value="${formatDate(category.updated_at)}" readonly>`;
-            categoryItem.innerHTML += '<div class="action-button-container"><button id="edit-category-btn">Edit</button><button id="delete-category-btn">Delete</button></div>';
+            categoryItem.innerHTML += '<div class="action-button-container"><button class="edit-btn">Edit</button><button class="delete-btn">Delete</button></div>';
 
 
-            const editCategoryBtn = categoryItem.querySelector('#edit-category-btn');
-            const deleteCategoryBtn = categoryItem.querySelector('#delete-category-btn');
+            const editCategoryBtn = categoryItem.querySelector('.edit-btn');
+            const deleteCategoryBtn = categoryItem.querySelector('.delete-btn');
 
             const fields = categoryItem.querySelectorAll('input, textarea');
 
@@ -154,16 +154,19 @@ async function renderSubjects(categoryId) {
             itemContainer.innerHTML += '<p>IMAGE</p>';
             itemContainer.innerHTML += '<img src="' + subject.image_url + '" alt="Subject Image">';
             itemContainer.innerHTML += '<input type="text" value="' + subject.image_url + '" readonly>';
-            itemContainer.innerHTML += '<p> name: ' + subject.name + '</p>';
+            itemContainer.innerHTML += '<p>NAME</p>';
             itemContainer.innerHTML += '<input type="text" value="' + subject.name + '" readonly>';
-            itemContainer.innerHTML += '<p> description: ' + (subject.description == null ? 'No description' : subject.description) + '</p>';
+            itemContainer.innerHTML += '<p>DESCRIPTION</p>';
             itemContainer.innerHTML += '<input type="text" value="' + (subject.description == null ? 'No description' : subject.description) + '" readonly>';
-            itemContainer.innerHTML += '<p> sort order: ' + subject.sort_order + '</p>';
+            itemContainer.innerHTML += '<p>SORT ORDER</p>';
             itemContainer.innerHTML += '<input type="text" value="' + subject.sort_order + '" readonly>';
-            itemContainer.innerHTML += '<p> active status: ' + subject.is_active + '</p>';
+            itemContainer.innerHTML += '<p>ACTIVE STATUS</p>';
             itemContainer.innerHTML += '<input type="text" value="' + subject.is_active + '" readonly>';
-            itemContainer.innerHTML += '<p> created at: ' + formatDate(subject.created_at) + '</p>';
-            itemContainer.innerHTML += '<p> updated at: ' + formatDate(subject.updated_at) + '</p>';
+            itemContainer.innerHTML += '<p>CREATED AT</p>';
+            itemContainer.innerHTML += '<input type="text" value="' + formatDate(subject.created_at) + '" readonly>';
+            itemContainer.innerHTML += '<p>UPDATED AT</p>';
+            itemContainer.innerHTML += '<input type="text" value="' + formatDate(subject.updated_at) + '" readonly>';
+            itemContainer.innerHTML += '<div class="action-button-container"><button class="edit-btn">Edit</button><button class="delete-btn">Delete</button></div>';
             subjectItemContainer.appendChild(itemContainer);
             itemContainer.addEventListener('click', () => {
                 //show courses within subject
