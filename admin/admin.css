@@ -30,8 +30,9 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #212121;
+    background-color: #21212187;
     border-radius: 5px;
+    backdrop-filter: blur(5px);
     border: 1px solid #939393;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
